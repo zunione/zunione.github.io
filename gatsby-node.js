@@ -96,6 +96,22 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
       name: `slug`,
       value: newSlug,
     })
+
+// ✅ readingTime 계산 추가
+    const text = node.rawMarkdownBody || ''
+    const wordsPerMinute = 200
+    const words = text.split(/\s+/).length
+    const minutes = Math.ceil(words / wordsPerMinute) || 1
+    
+    createNodeField({
+      name: `readingTime`,
+      node,
+      value: {
+        minutes: minutes,
+        words: words,
+        text: `${minutes} min read`,
+      },
+    })
   }
 }
 
@@ -110,6 +126,15 @@ exports.createSchemaCustomization = ({ actions }) => {
     description: String
     tags: [String!]!
     series: String
+  }
+    type Fields {
+    slug: String
+    readingTime: ReadingTime
+  }
+  type ReadingTime {
+    minutes: Int
+    words: Int
+    text: String
   }
   `
   createTypes(typeDefs)
