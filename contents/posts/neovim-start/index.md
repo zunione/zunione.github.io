@@ -9,7 +9,7 @@ tags:
 series: "NeoVim으로 개발환경 구축하기"
 ---
 
-## 들어가며
+## 🚀 들어가며
 
 본 포스트는 NeoVim 설치 과정과 간단한 configuration을 담고 있습니다. 여기서 진행하는 설정은 모두 리셋하고 다시 personal config를 셋업할 예정이니 참고하시기 바랍니다.
 
@@ -27,7 +27,7 @@ series: "NeoVim으로 개발환경 구축하기"
 
 `NeoVim으로 개발환경 구축하기` 시리즈에서는 위 영상을 일부 번역하는 동시에 나의 개인 설정을 기록하려 한다. 영상이 매우 잘 설명되어 있어서, 혹시 이 게시물을 참고한다면 영상 또한 시청하는 것을 권장한다.
 
-## NeoVim 최신 Release 다운로드
+## 📥 NeoVim 최신 Release 다운로드
 
 ### 우분투 패키지 다운로드
 
@@ -81,7 +81,7 @@ which nvim
 nvim --version
 ```
 
-## NeoVim custom config 맛보기
+## 👀 NeoVim custom config 맛보기
 
 맛보기 부분은 추후 모두 삭제(`rm -rf`)하고 다시 설정을 진행하게 되니 참고용으로만 활용하면 된다.
 
@@ -133,7 +133,7 @@ vim.wo.number = true
 
 이후 `nvim` 명령어를 입력하면 이전과 동일하게 라인 넘버가 나타난다.
 
-## `kickstart.nvim`으로 플러그인 맛보기
+## ⚡ `kickstart.nvim`으로 플러그인 맛보기
 
 `kickstart.nvim`은 NeoVim 커스터마이징의 시작점을 제공하며, LSP 등 복잡한 코드를 요구하는 설정들이 매우 잘 구현되어 있어 참고하기에 좋다. 이후 몇몇 플러그인을 설치할 때 kickstart를 참고할 예정이다.
 
@@ -181,7 +181,7 @@ require 'kickstart.plugins.neo-tree',
 -- { import = 'custom.plugins' },
 ```
 
-## 마치며
+## ✨ 마치며
 
 이제 진짜 custom config를 위해 kickstart도 지워주면 된다. 추후에 코드를 참고하기 위해 다른 디렉토리로 옮겨도 무방한데, 나는 github에서 바로바로 보는 게 편해서 아예 지워 버렸다.
 
