@@ -94,7 +94,7 @@ require('lazy').setup('plugins')
 
 플러그인 폴더에서 원하는 플러그인들을 직접 작성한다. 
 
-사용하지 않는 플러그인을 삭제하지 않고 백업용으로 둘 수 있다는 장점이 있는 반면에, 새로운 플러그인을 추가할 때는 다소 귀찮다는 단점이 있다. 나는 1번 방법으로 하고 있다.
+사용하지 않는 플러그인을 삭제하지 않고 백업용으로 둘 수 있다는 장점이 있는 반면에, 새로운 플러그인을 추가할 때는 다소 귀찮다는 단점이 있다. 나는 플러그인 추가 코드를 작성하는 걸 자꾸 까먹어서..😅 그냥 1번 방법으로 한꺼번에 추가하고 있다.
 
 ```lua
 require('lazy').setup({
@@ -111,16 +111,14 @@ require('lazy').setup({
 -- [[ lua/plugins/neotree.lua ]]
 
 return {
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "nvim-tree/nvim-web-devicons", -- optional, but recommended
-    },
-    lazy = false, -- neo-tree will lazily load itself
-  }
+  "nvim-neo-tree/neo-tree.nvim",
+  branch = "v3.x",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "MunifTanjim/nui.nvim",
+    "nvim-tree/nvim-web-devicons", -- optional, but recommended
+  },
+  lazy = false, -- neo-tree will lazily load itself
 }
 ```
 
@@ -128,7 +126,7 @@ return {
 
 ![neo-tree](image.png)
 
-`:Neotree` 명령어로 파일 트리를 켜고, `:Neotree close`로 닫을 수 있다.
+`:Neotree` 명령어로 파일 트리를 켜고, `:Neotree close`로 닫을 수 있다. 이는 추후에 단축키로 옮길 예정이다.
 
 ![Create new file](image-1.png)
 
