@@ -1,8 +1,8 @@
 ---
-title: "[NeoVim] 화면 UI 커스터마이징"
+title: "[NeoVim] Bufferline, Statusline, Scrollbar 구성"
 description: "NeoVim configuration #3"
-date: 2025-10-31
-update: 2025-10-31
+date: 2025-11-04
+update: 2025-11-04
 tags:
   - neovim
   - ide
@@ -11,116 +11,19 @@ series: "NeoVim으로 개발환경 구축하기"
 
 ## 🚀 들어가며
 
-이제 실제 NeoVim 화면을 그럴듯하게 꾸며볼 예정인데, 개인적으로 이 부분이 가장 재미있었다 ^_^
+화면 UI 구성을 마무리할 시간이다. 아직은 코드 화면과 파일 트리밖에 없어서 많이 불편감이 느껴질 텐데, 이제 정말 CUI가 뭔지 볼 수 있다 ㅎㅎ
 
-나는 VSCode에 익숙해서 VSCode 테마를 적용했지만 유저들이 만든 다른 테마들도 굉장히 많다. (사실 다른 테마 이것저것 적용해 봤는데, 다 눈이 너무 피곤했다.. VSCode가 확실히 컬러감을 잘 뽑은 듯.)
+Bufferline은 맨 위에 내가 열어놓은 파일 목록을 확인 할 수 있는 기능이고, statusline은 맨 밑에 각종 메타데이터를 확인할 수 있는 기능이다.
 
-![dotfyle: Trending Neovim Colorschemes](image.png)
-
-[dotfyle(클릭)](https://dotfyle.com/neovim/colorscheme/top)에 접속하면 여러 테마를 살펴볼 수 있다. 
-
-## 폰트 설정
-
-테마를 설정하기 전, 아이콘 지원을 위해 [Nerd Font Famliy](https://www.nerdfonts.com/)를 설치한다.
-
-![nerd fonts](image-1.png)
-
-### 폰트 다운로드
-
-Downloads 버튼을 클릭해 다운로드 페이지로 접속한다. 여러 폰트들이 있는데, 나는 `JetBrainsMono Nerd Font`를 선택했다. 
-
-다운로드받고 압축을 풀면 여러 크기의 폰트 파일들이 있다. Light 폰트가 적용했을 때 가장 부담스럽지 않기 때문에 이 폰트만 설치하는 것을 권장한다.
-
-![JetBrainsMono Nerd Font](image-2.png)
-
-세모주의세모: 뒤에 `Mono` 나 `Propo`가 붙어 있는 파일이 아닌 `JetBrainsMonoNerdFont`라고만 되어 있는 파일을 설치할 것! 다른 파일들은 아이콘이 작게 출력되는 문제가 생긴다.
-
-### 터미널에 폰트 적용
-
-![alt text](image-3.png)
-
-윈도우 기준으로 설명하면, cmd 창을 켜고 상단 바에서 우클릭해 설정에 들어간다.
-
-![alt text](image-4.png)
-
-왼쪽 사이드바에서 '기본값'을 선택하고 '모양' 탭에 들어가 클꼴을 JetBrainsMono Nerd Font로 설정해주고, 크기와 높이를 선호에 맞게 조절한다.
-
-우측 하단 '저장'을 누르고 다시 터미널로 돌아가면 변경사항이 적용된다!축하축하
-
-## `vscode.nvim` 테마 플러그인 설치
-
-이제 본격적으로 테마를 설정할 차례이다 ><
-
-[vscode.nvim(클릭)](https://github.com/Mofiqul/vscode.nvim?tab=readme-ov-file)은 lazy 방식의 플러그인 설치에 대한 매뉴얼을 제공하고 있지 않다. 다음과 같이 작성하면 된다.
-
-```lua
---[[ lua/plugins/colorscheme.lua ]]
-
-return {
-  'Mofiqul/vscode.nvim',
-  lazy = false,
-  priority = 1000,
-  config = function()
-    local c = require('vscode.colors').get_colors()
-    require('vscode').setup({
-      -- Alternatively set style in setup
-      -- style = 'light'
-
-      -- Enable transparent background
-      transparent = false,
-
-      -- Enable italic comment
-      italic_comments = true,
-
-      -- Enable italic inlay type hints
-      italic_inlayhints = true,
-
-      -- Underline `@markup.link.*` variants
-      underline_links = true,
-
-      -- Disable nvim-tree background color
-      disable_nvimtree_bg = true,
-
-      -- Apply theme colors to terminal
-      terminal_colors = true,
-
-      -- Override colors (see ./lua/vscode/colors.lua)
-      color_overrides = {
-        vscLineNumber = '#FFFFFF',
-      },
-
-      -- Override highlight groups (see ./lua/vscode/theme.lua)
-      group_overrides = {
-        -- this supports the same val table as vim.api.nvim_set_hl
-        -- use colors from this colorscheme by requiring vscode.colors!
-        Cursor = { fg=c.vscDarkBlue, bg=c.vscLightGreen, bold=true },
-      }
-    })
-    vim.cmd.colorscheme('vscode')
-  end
-}
-```
-
-- lazy = false
-- priority = 1000
-
-이 부분들은 테마가 지연 로딩되지 않도록 한다. 테마가 항상 가장 먼저 적용되어 우리 눈에 보이도록 하는 설정이다.
-
-![alt text](image-5.png)
-
-플러그인을 추가하고 NeoVim을 재시작하면 사진처럼 VSCode와 동일한 컬러가 나타난다. 
-
-중괄호 색이 다 똑같이 파란색이라는 게 아쉽지만..ㅠ 추후에 플러그인으로 해결할 예정이다.
-
-참고로 `if-end` 사이에 나타나는 얇은 선도 플러그인이다. 나중에 설치하면 된다.
-
-## Bufferline 플러그인 설치
+## 📑 Bufferline: `barbar.nvim`
 
 Bufferline이 보이게 하는 플러그인으로는 크게 `bufferline.nvim`과 `barbar.nvim`이 있다. `bufferline.nvim`이 좀 더 보편적으로 사용되고 커스터마이징이 자유로운데, `barbar.nvim`은 단축어로 편리하게 버퍼 간 이동을 할 수 있다는 장점이 있어 `barbar.nvim`을 선택했다.
 
-[`barbar.nvim` Github](https://github.com/romgrk/barbar.nvim)의 README에 Lazy를 사용해 플러그인을 설치하는 방법이 다음과 같이 나와 있다.
+[`barbar.nvim` Github(클릭)](https://github.com/romgrk/barbar.nvim)의 README에 Lazy를 사용해 플러그인을 설치하는 방법이 다음과 같이 나와 있다.
 
 ```lua
+-- [[ lua/plugins/barbar.lua ]]
+
 require('lazy').setup {
   {'romgrk/barbar.nvim',
     dependencies = {
@@ -205,9 +108,9 @@ return {
 
 ### 구분선(Separator) 설정
 
-버퍼 간의 구분선 문자를 중간에 위치한 얇은 세로선으로 변경한다.
+버퍼 간의 구분선 문자 기본 설정이 '왼쪽 정렬된 세로선'인데, 파일 트리와 코드 화면 분리선과 위치가 어긋나 보기 좋지 않았다 😖
 
-기본 구분선은 왼쪽 정렬된 세로선인데, 파일 트리와 위치가 어긋나 수동으로 설정해 주었다.
+'중앙 정렬된, 더 얇은 세로선'으로 구분선을 변경해 주었다.
 
 ```lua
 icons = {
@@ -216,7 +119,7 @@ icons = {
 }
 ```
 
-버퍼가 선택되어 있을 때와 선택되지 않았을 때를 따로 설정해야 한다.
+버퍼가 선택되어 있을 때(`separator`)와 선택되지 않았을 때(`inactive-separator`)를 각각 설정해야 동일하게 적용된다.
 
 ### 패딩(Padding) 설정
 
@@ -261,7 +164,7 @@ local colors = {
 }
 ```
 
-VSCode 테마가 barbar 플러그인에 최적화되어 있지 않은 것 같아서 `#1f1f1f` 등의 색상을 임의 적용했다.
+VSCode 테마가 barbar 플러그인에 최적화되어 있지 않은 것 같아서 `#181818` 등의 색상을 임의 적용했다.
 
 ```lua
 -- 활성 버퍼
@@ -280,63 +183,134 @@ vim.api.nvim_set_hl(0, 'BufferTabpageFill', { bg = '#181818' })
 
 색상 적용사항은 다음과 같다.
 
-- 수정사항이 아직 저장되지 않은 버퍼는 오렌지색 글씨
-- 활성 버퍼는 어두운 회색 (코드 스니펫과 같은 색)
-- 비활성 버퍼는 검은색 (파일 트리와 같은 색)
+- 수정사항이 아직 저장되지 않은 버퍼는 **오렌지색 글씨**
+- 활성 버퍼는 **어두운 회색** (코드 스니펫과 같은 색)
+- 비활성 버퍼는 **검은색** (파일 트리와 같은 색)
 
+## 💫 Statusline: `lualine`
 
-Statusline Setup
+Statusline은 가장 많이 사용되는 [lualine(클릭)](https://github.com/nvim-lualine/lualine.nvim)으로 결정했다. 우리는 VSCode와 가장 비슷한 테마를 적용해야 하는데, statusline 플러그인 중 테마 호환이 가장 잘 되어 있는 플러그인이 `lualine`이다.
 
+### Lazy로 lualine 설치
 
+`lualine.nvim`의 README에 Lazy 매니저로 플러그인을 설치하는 방법이 다음과 같이 나와 았다.
 
+```lua
+{
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' }
+}
+```
 
+### 창 크기에 따라 요소 조절하기
 
+Statusline에 모든 요소가 항상 표시되면, 창 크기를 줄였을 때 중요한 정보들이 표시되지 않을 수 있다. 이를 방지하기 위해 반응형으로 statusline을 구성한다.
 
+전체 코드는 다음과 같다.
 
+```lua
+-- [[ lua/plugins/lualine.lua ]]
 
+return {
+  'nvim-lualine/lualine.nvim',
+  dependencies = { 'nvim-tree/nvim-web-devicons' },
 
+  config = function()
+    -- Variable for small window settings
+    local hide_in_width = function()
+      return vim.fn.winwidth(0) > 100
+    end
 
+    -- Diagnostics: Not shown if small window
+    local diagnostics = {
+      'diagnostics',
+      sources = { 'nvim_diagnostic' },
+      always_visible = false,
+      cond = hide_in_width,
+    }
 
+    -- Git diff icon settings: Not shown if small window
+    local diff = {
+      'diff',
+      cond = hide_in_width,
+    }
 
+    require('lualine').setup {
+      options = {
+        disabled_filetypes = { 'alpha', 'neo-tree' },
+      },
+      sections = {
+        lualine_a = {'mode'},
+        lualine_b = {'branch', diff, diagnostics},
+        lualine_c = {'filename'},
+        lualine_x = {'encoding', 'fileformat', 'filetype'},
+        lualine_y = {'progress'},
+        lualine_z = {'location'}
+      },
+      inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {'filename'},
+        lualine_x = {'location'},
+        lualine_y = {},
+        lualine_z = {}
+      },
+      tabline = {},
+      winbar = {},
+      inactive_winbar = {},
+      extensions = { 'fugitive' }
+    }
+  end,
+}
+```
 
+`hide_in_width` 함수를 선언해 윈도우 크기가 작아지면 `dianostics`와 `diff` 요소가 표시되지 않도록 했다. 이때 주의할 점은, `sections` 프로퍼티에서 문자열이 아닌 변수를 전달해야 한다.
 
+```lua
+sections = {
+  lualine_a = {'mode'},
+  lualine_b = {'branch', diff, diagnostics},
+  lualine_c = {'filename'},
+  lualine_x = {'encoding', 'fileformat', 'filetype'},
+  lualine_y = {'progress'},
+  lualine_z = {'location'}
+},
+```
 
+`lualine_b`에 `diff`와 `diagonstics` 변수를 전달한 것을 볼 수 있다. Statusline의 요소들은 pre-configured 그대로 사용하지 않아도 되고, 마음대로 커스터마이징할 수 있다.
 
+```lua
+options = {
+  disabled_filetypes = { 'alpha', 'neo-tree' },
+},
+```
 
+파일 트리에는 statusline이 나타나지 않게 하고 싶다면 `disabled_filetypes` 프로퍼티에 파일 트리를 추가해주면 된다.
 
+![full screen](image.png)
 
+Bufferline과 statusline까지 구성하고 나면 이 정도의 화면이 완성되었을 것! 💃 `disabled_filetypes`에 파일트리를 추가했다면 왼쪽 하단 회색 글씨는 없어진다.
 
+## 📜 Scrollbar: `nvim-scrollbar`
 
+스크롤 자체는 마우스 휠이나 키보드의 'PGDN' 키로 할 때가 많아 괜찮지만, git diff를 스크롤바에서 바로 확인해서 그 위치로 가고 싶을 때가 있다. 검색을 할 때도 여간 불편한 게 아니다.
 
+이를 해결하기 위해 스크롤바 플러그인을 설치하기로 결정했다.
 
+README에 lazy 매니저를 활용한 설치 매뉴얼은 공식적으로 나와 있지 않지만 다음 [Github Issue(클릭)](https://github.com/petertriho/nvim-scrollbar/issues/112)에서 힌트를 얻을 수 있었다.
 
+### TBD
 
+스크롤바 플러그인을 몇 개 둘러봤지만,
 
+1. 스크롤바 색상과 너비를 조절할 수 있고
+2. VSCode처럼 파일 길이에 맞춰 스크롤바 크기가 고정되고
+3. 모든 내용이 한 화면 안에 있어도 스크롤바가 사라지지 않는
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+세 가지 조건을 충족하는 스크롤바를 찾을 수 없었다. 개인적으로 플러그인을 수정해서 구현하기 전까지 이 파트는 최종 설정을 공유할 수 없을 것 같다.
 
 ## ✨ 마치며
 
-처음 Neo-tree를 설치하면 파일 앞 아이콘이 깨져 보일 수 있다. 터미널 설정 폰트가 아이콘을 지원하지 않기 때문인데, 이는 `nerd font`를 설치하면 해결 가능하다.
+이제 그럴듯한 화면 구성이 완료되었다. 스크롤바가 맘에 꼭 드는 게 없어서 아쉽지만, 추후에 직접 구현해 보는 것도 재미있을 것 같다. 
 
-다음 포스트에서 폰트 설정을 포함해 기본 UI 설정을 다룰 예정이다.
+이대로 개발을 진행해도 되지만 코드 에디터를 쓰는 주된 이유는 빠른 에러 확인이기도 하다. 간단한 문법 오류는 에디터가 잡아내 줘야 생산성이 올라간다. 이후부터는 기능적인 면에 집중해서 IDE 구성을 진행할 예정이다.
