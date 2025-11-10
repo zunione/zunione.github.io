@@ -1,6 +1,6 @@
 ---
 title: "[NeoVim] Bufferline, Statusline, Scrollbar 구성"
-description: "NeoVim configuration #3"
+description: "NeoVim configuration #4"
 date: 2025-11-04
 update: 2025-11-04
 tags:
@@ -45,6 +45,8 @@ require('lazy').setup {
 ### 개인 설정 전체
 
 나의 barbar 플러그인 전체 설정은 다음과 같다.
+
+![모든 설정이 적용된 모습](image-3.png)
 
 ```lua
 return {
@@ -110,7 +112,9 @@ return {
 
 버퍼 간의 구분선 문자 기본 설정이 '왼쪽 정렬된 세로선'인데, 파일 트리와 코드 화면 분리선과 위치가 어긋나 보기 좋지 않았다 😖
 
-'중앙 정렬된, 더 얇은 세로선'으로 구분선을 변경해 주었다.
+![Bufferline과 그 밑 구분선이 분리되어 있는 모습](image-2.png)
+
+이를 해결하기 위해 '중앙 정렬된, 더 얇은 세로선'으로 구분선을 변경해 주었다.
 
 ```lua
 icons = {
@@ -124,6 +128,8 @@ icons = {
 ### 패딩(Padding) 설정
 
 공간이 충분할 경우 버퍼 크기가 꽤 커지는데, 여백이 너무 많으니 보기 좋지 않아서 각 버퍼 탭 양옆의 여백을 1로 고정했다.
+
+![여백 조절이 적용되지 않은 모습](image-4.png)
 
 ```lua
 maximum_padding = 1,
@@ -187,24 +193,13 @@ vim.api.nvim_set_hl(0, 'BufferTabpageFill', { bg = '#181818' })
 - 활성 버퍼는 **어두운 회색** (코드 스니펫과 같은 색)
 - 비활성 버퍼는 **검은색** (파일 트리와 같은 색)
 
+![오렌지색 버퍼](image-6.png)
+
+설정을 저장하고 NeoVim을 재시작했을 때 버퍼라인의 모습이다. 
+
 ## 💫 Statusline: `lualine`
 
 Statusline은 가장 많이 사용되는 [lualine(클릭)](https://github.com/nvim-lualine/lualine.nvim)으로 결정했다. 우리는 VSCode와 가장 비슷한 테마를 적용해야 하는데, statusline 플러그인 중 테마 호환이 가장 잘 되어 있는 플러그인이 `lualine`이다.
-
-### Lazy로 lualine 설치
-
-`lualine.nvim`의 README에 Lazy 매니저로 플러그인을 설치하는 방법이 다음과 같이 나와 았다.
-
-```lua
-{
-    'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' }
-}
-```
-
-### 창 크기에 따라 요소 조절하기
-
-Statusline에 모든 요소가 항상 표시되면, 창 크기를 줄였을 때 중요한 정보들이 표시되지 않을 수 있다. 이를 방지하기 위해 반응형으로 statusline을 구성한다.
 
 전체 코드는 다음과 같다.
 
@@ -264,6 +259,21 @@ return {
 }
 ```
 
+### Lazy로 lualine 설치
+
+`lualine.nvim`의 README에 Lazy 매니저로 플러그인을 설치하는 방법이 다음과 같이 나와 았다.
+
+```lua
+{
+  'nvim-lualine/lualine.nvim',
+  dependencies = { 'nvim-tree/nvim-web-devicons' }
+}
+```
+
+### 창 크기에 따라 요소 조절하기
+
+Statusline에 모든 요소가 항상 표시되면, 창 크기를 줄였을 때 중요한 정보들이 표시되지 않을 수 있다. 이를 방지하기 위해 반응형으로 statusline을 구성한다.
+
 `hide_in_width` 함수를 선언해 윈도우 크기가 작아지면 `dianostics`와 `diff` 요소가 표시되지 않도록 했다. 이때 주의할 점은, `sections` 프로퍼티에서 문자열이 아닌 변수를 전달해야 한다.
 
 ```lua
@@ -277,7 +287,15 @@ sections = {
 },
 ```
 
+![창 크기를 줄인 모습](image-5.png)
+
+반응형 statusline이 적용되면 위 사진과 같이 git 변경사항과 lsp 오류가 있음에도 상태바에 표시되지 않는다.
+
 `lualine_b`에 `diff`와 `diagonstics` 변수를 전달한 것을 볼 수 있다. Statusline의 요소들은 pre-configured 그대로 사용하지 않아도 되고, 마음대로 커스터마이징할 수 있다.
+
+### 파일 트리 오프셋
+
+파일 트리에는 statusline이 나타나지 않게 하고 싶다면 `disabled_filetypes` 프로퍼티에 파일 트리를 추가해주면 된다.
 
 ```lua
 options = {
@@ -285,9 +303,7 @@ options = {
 },
 ```
 
-파일 트리에는 statusline이 나타나지 않게 하고 싶다면 `disabled_filetypes` 프로퍼티에 파일 트리를 추가해주면 된다.
-
-![full screen](image.png)
+![Full Screen](image-7.png)
 
 Bufferline과 statusline까지 구성하고 나면 이 정도의 화면이 완성되었을 것! 💃 `disabled_filetypes`에 파일트리를 추가했다면 왼쪽 하단 회색 글씨는 없어진다.
 
