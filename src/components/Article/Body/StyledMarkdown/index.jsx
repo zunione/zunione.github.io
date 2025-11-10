@@ -142,9 +142,10 @@ const StyledMarkdown = styled.div`
     position: relative;
     top: -1px;
     padding: 3px 5px 3px 5px;
-    font-size: 13px;
+    font-size: 13.5px;
+    font-family: "JetBrains Mono", Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
     background-color: ${props => props.theme.colors.inlineCodeBackground};
-    font-weight: bold;
+    font-weight: 400;
     color: ${props => props.theme.colors.text};
   }
 
