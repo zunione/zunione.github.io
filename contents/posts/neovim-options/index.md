@@ -1,8 +1,8 @@
 ---
 title: "[NeoVim] Vim 사용자 옵션 설정"
 description: "NeoVim configuration #5"
-date: 2025-11-06
-update: 2025-11-06
+date: 2025-11-10
+update: 2025-11-10
 tags:
   - neovim
   - ide
@@ -18,6 +18,20 @@ series: "NeoVim으로 개발환경 구축하기"
 NeoVim을 쓰려고 한다면 웬만한 Vim 기능은 알고 있겠지만, 이렇게 상대적 라인 넘버가 표시되면 `10j`(위로 10줄 이동), `5k`(아래로 5줄 이동), `3dd`(3줄 오려내기)처럼 라인 수를 지정하는 명령어를 입력하기가 한결 편하다.
 
 이번 포스트에서는 이런 라인 넘버 설정처럼 유용한 NeoVim 설정을 다루려고 한다.
+
+## 🎯 파일 생성 및 적용
+
+먼저 `lua/core/options.lua` 파일을 생성해 저장한다. 파일 트리에서 `a`키로 생성 가능하고, 터미널에서 `touch` 명령어로 생성할 수도 있다.
+
+![lua/core/options.lua](image-3.png)
+
+그 후 `init.lua` 파일에 생성한 `options.lua` 파일을 import한다.
+
+```lua
+require 'core.options'
+```
+
+![init.lua](image-4.png)
 
 ## 🎨 UI & DISPLAY - 화면 표시 설정
 

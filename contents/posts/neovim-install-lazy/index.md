@@ -2,7 +2,7 @@
 title: "[NeoVim] Lazy.nvim 플러그인 매니저와 파일 트리 설치"
 description: "NeoVim configuration #2"
 date: 2025-10-30
-update: 2025-10-30
+update: 2025-11-11
 tags:
   - neovim
   - ide
@@ -131,6 +131,73 @@ return {
 ![Create new file](image-1.png)
 
 폴더에 포커스가 주어진 상태에서 `a`키를 누르면 새로운 파일이나 디렉토리를 만들 수 있다. 이름을 입력하고 마지막에 슬래시(`/`)를 붙이면 디렉토리가 생성된다.
+
+## Neo-Tree 커스터마이징
+
+처음 설치한 파일트리는 각종 불필요한 Git 아이콘들이 중복되어 표시되는 등 불편함이 많다. 이를 VSCode 스타일로 변경한다.
+
+### Git status와 색상 설정
+
+VSCode의 경우 `Untracked`와 `Added`가 모두 초록색, `Modified`가 노란색, 기타 에러가 빨간색이다. 이를 반영하는 동시에 혼잡한 아이콘을 모두 동일한 원 아이콘으로 바꿔서 가독성을 높이려고 한다.
+
+![VSCode File Tree](image-2.png)
+
+`lazy = false` 이후 라인에 `opts = {}`를 추가하고 중괄호 안에 다음 옵션들을 추가한다.
+
+```lua
+enable_diagnostics = false,  -- Disable warning/error icons
+default_component_configs = {
+  git_status = {
+    symbols = {
+      added = "●",
+      modified = "●",
+      deleted = "●",
+      renamed = "●",
+      untracked = "●",
+      ignored = "",
+      unstaged = "",
+      staged = "",
+      conflict = "●",
+    },
+  },
+},
+```
+
+Diagnostics가 파일 트리에까지 뜨면 정신이 없어서 꺼버렸고, 아이콘을 모두 점으로 통일했다.
+
+```lua
+config = function(_, opts)
+  require("neo-tree").setup(opts)
+
+  -- Git 색상 설정 (VSCode 스타일)
+  vim.cmd([[
+    highlight NeoTreeGitModified guifg=#E2C08D 
+    highlight NeoTreeGitUntracked guifg=#73C991
+    highlight NeoTreeGitAdded guifg=#73C991
+    highlight NeoTreeGitDeleted guifg=#E06C75
+    highlight NeoTreeGitConflict guifg=#E06C75
+  ]])
+```
+
+색상 설정은 `require("neo-tree").setup(opts)`로 기본 옵션을 적용한 후에 덧입혀야 한다. 설정하고 나면 다음과 같이 아름답게^^ 나타난다.
+
+![alt text](image-3.png)
+
+그리고 NeoVim을 처음 켜면 파일 트리가 닫혀 있는데, 이게 불편해서 자동으로 파일 트리가 토글되도록 했다.
+
+```lua
+  -- Nvim이 시작될 때 Neo-tree를 자동으로 엽니다.
+  vim.api.nvim_create_autocmd("VimEnter", {
+    pattern = "*",
+    -- 중복 실행을 방지하기 위해 새 그룹 생성
+    group = vim.api.nvim_create_augroup("neotree_on_startup", { clear = true }),
+    callback = function()
+      vim.cmd("Neotree")
+    end
+  })
+
+end,
+```
 
 ## ✨ 마치며
 
