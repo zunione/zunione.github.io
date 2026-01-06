@@ -1,55 +1,46 @@
----
-title: "This is about page ✋"
----
+<!-- ---
+title: "서버 개발자 Hudi 입니다."
+--- -->
 
-## English Guide
+### 신입 임베디드 개발자 전희원입니다. 
 
-Hello! This section is dedicated to introducing your blog. Here, you can showcase various information to your visitors, such as a blog introduction, personal profile, resume, portfolio, and more.
+실시간 시스템의 안정성과 정확성에 관심이 많으며, RTOS를 통한 실시간성 보장에 깊은 흥미를 느낍니다. 일하며 배운 것들을 내 것으로 만들고자 기록하며, BeagleBone Black으로 직접 포팅해보며 다양한 BSP에 익숙해지려 노력합니다. 소설과 개발 서적을 즐겨 읽으며, 기술에 대한 대화를 좋아합니다.
 
-### Writing Guide
+### Skills
 
-To edit this page, modify the `/contents/about/index.md` file. You can write it in the same way as any other post. The path to this file cannot be changed.
+- RTEMS
+- Android Studio, Flutter
+<!-- - MySQL, Redis, Kafka -->
 
-The Markdown document for the About page only contains a single frontmatter called `title`. The `title` frontmatter will be displayed as the title at the top of the About page.
+### Career
 
-### Disabling the About Page
+- **쏠리드윈텍 연구소** (2025.07.01 ~ 재직중)
 
-```json
-module.exports = {
+<!-- ### Side Project
 
-  // ...
+- **[gatsby-starter-hoodie](https://github.com/devHudi/gatsby-starter-hoodie)** (2020 ~ ) : 지금 보고 계신 이 블로그를 React, Gatsby 스택으로 직접 구현하였습니다. 200개의 Star를 보유하고 있는 프로젝트입니다. -->
 
-  useAbout: false, // 👈
+### Education
 
-  // ...
+- **아주대학교 소프트웨어학과** (2021.03 ~ 2026.02)
+- **멋쟁이사자처럼 앱 스쿨 안드로이드 2기** (2023.12 ~ 2024.06)
 
-}
-```
+<!-- ### Presentation
 
-You can disable the About page by setting the `useAbout` value to false in the `blog-config.js` file. If disabled, the tab in the blog header will be hidden, and visitors will not be able to access this page via the `/about` URL.
+- [임팩트 커넥트 세미나 2023](https://www.slideshare.net/ssuserc36e7d/ss-9318) ([보도자료1](https://www.eduyonhap.com/m/page/view.php?no=75461), [보도자료2](https://platum.kr/archives/211747))
+- 우아한테크코스 발표
+  - [[10분 테코톡] 토닉, 후디의 인증과 인가 - 부족사회부터 소셜로그인까지](https://www.youtube.com/watch?v=BotXDfBPvDA&t=591s)
+  - [[프로젝트 4차 데모] 달록 - 달력이 기록을 공유할 때](https://www.youtube.com/watch?v=29Q7xo68kk0)
+  - [[프로젝트 5차 데모] 달록 - 달력이 기록을 공유할 때](https://www.youtube.com/watch?v=W5J49Z4qGPg)
 
-## 한국어 가이드
+### Writing
 
-안녕하세요. 이 곳은 블로그를 소개하기 위한 공간입니다. 블로그 또는 자신에 대한 소개부터 이력서, 포트폴리오 등 다양한 정보를 이곳에서 방문자들에게 보여줄 수 있습니다.
+- [[우아한형제들 기술 블로그] 내가 꿈꾸는 프로그래머로서의 삶](https://techblog.woowahan.com/9433/)
 
-### 작성 가이드
+### Interview
 
-이 페이지를 편집하려면, `/contents/about/index.md` 파일을 수정하면 됩니다. 다른 포스팅을 작성하는 것과 동일한 방식으로 작성할 수 있습니다. 이 파일의 경로는 변경할 수 없습니다.
-
-About 페이지의 마크다운 문서는 오직 `title` 이라는 하나의 frontmatter 만 가지고 있습니다. `title` frontmatter 는 About 페이지 상단 제목으로 표시됩니다.
-
-### 비활성화
-
-```json
-module.exports = {
-
-  // ...
-
-  useAbout: false, // 👈
-
-  // ...
-
-}
-```
-
-`blog-config.js` 파일의 `useAbout` 값을 `false` 로 설정하여 About 페이지를 비활성화 할 수 있습니다. 비활성화 된다면, 블로그 상단에 존재하는 탭이 숨겨지고, `/about` 경로로 이 페이지에 접속할 수도 없게 됩니다.
+- [“새로운 시대의 흐름을 만들고 싶어요” 인후라이프 개발자, 조동현 학우를 만나다 - 인하프레스](http://www.inhapress.com/news/articleView.html?idxno=7721)
+- [인하대 후문가 음식점을 한 눈에 ‘인후라이프 개발’ 룰렛을 돌려 점심 메뉴 선택 - 국민일보](http://news.kmib.co.kr/article/view.asp?arcid=0012267786&code=61121411&cp=nv)
+- [인하대 학생 개발한 ‘인후라이프’ 인기 - 신아일보](http://www.shinailbo.co.kr/news/articleView.html?idxno=1060781)
+- [인하대 후문가 음식점을 한 눈에 - 대학저널](http://www.dhnews.co.kr/news/articleView.html?idxno=80030)
+- [인하대, 후문가 음식점을 한 눈에 ‘인후라이프' - 베리타스 알파](http://www.veritas-a.com/news/articleView.html?idxno=112909) -->

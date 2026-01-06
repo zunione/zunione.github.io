@@ -33,6 +33,10 @@ series: "NeoVim으로 개발환경 구축하기"
 
 `NeoVim으로 개발환경 구축하기` 시리즈에서는 위 영상을 일부 번역하는 동시에 나의 개인 설정을 기록하려 한다. 영상이 매우 잘 설명되어 있어서, 혹시 이 게시물을 참고한다면 영상 또한 시청하는 것을 권장한다.
 
+### 나의 NeoVim dotfile
+
+이번 시리즈에 나오는 모든 코드는 [나의 Github repository(클릭)](https://github.com/zunione/nvim)에서 확인할 수 있다.
+
 ## 📥 NeoVim 최신 Release 다운로드
 
 ### 우분투 패키지 다운로드
