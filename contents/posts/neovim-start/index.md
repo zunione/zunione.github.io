@@ -2,7 +2,7 @@
 title: "[NeoVim] NeoVim 설치 및 맛보기"
 description: "NeoVim configuration #1"
 date: 2025-10-29
-update: 2025-10-29
+update: 2025-01-06
 tags:
   - neovim
   - ide
@@ -23,7 +23,13 @@ series: "NeoVim으로 개발환경 구축하기"
 
 처음에는 예쁜 디자인에 끌려 NvChad 디스트로를 설치해 사용해 보았는데, 이미 모든 configuration이 완성되어 있다 보니 나에게 익숙하지 않은 키맵이 너무 많아 그냥 raw vim을 쓰는 것과 크게 다르지 않게 느껴졌다.
 
-나에게 익숙한 건 단연 VSCode. NeoVim을 VSCode 및 윈도우 환경과 최대한 비슷하게 구축하는 것을 목표로 삼고, [유튜브 영상(클릭)](https://youtu.be/KYDG3AHgYEs?si=zX4IFnZvH9rJVbW7)을 참고해 커스터마이징을 시작했다!
+### Full Neovim Setup from Scratch
+
+> 썸네일을 클릭하면 유튜브 영상을 시청하실 수 있습니다.
+
+[![Full Neovim Setup from Scratch](https://img.youtube.com/vi/KYDG3AHgYEs/maxresdefault.jpg)](https://youtu.be/KYDG3AHgYEs?si=zX4IFnZvH9rJVbW7)
+
+나에게 익숙한 건 단연 VSCode. NeoVim을 VSCode 및 윈도우 환경과 최대한 비슷하게 구축하는 것을 목표로 삼고, 위 유튜브 영상을 참고해 커스터마이징을 시작했다!
 
 `NeoVim으로 개발환경 구축하기` 시리즈에서는 위 영상을 일부 번역하는 동시에 나의 개인 설정을 기록하려 한다. 영상이 매우 잘 설명되어 있어서, 혹시 이 게시물을 참고한다면 영상 또한 시청하는 것을 권장한다.
 
