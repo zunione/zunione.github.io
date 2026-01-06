@@ -1,0 +1,330 @@
+---
+title: "[NeoVim] Dignostics를 위한 Telescope 및 LSP 설정"
+description: "NeoVim configuration #7"
+date: 2025-11-24
+update: 2025-11-24
+tags:
+  - neovim
+  - ide
+series: "NeoVim으로 개발환경 구축하기"
+---
+
+## 🚀 들어가며
+
+IDE를 사용하는 가장 큰 이유 중 하나는 에러나 경고를 컴파일 전에 탐지해 코딩을 용이하게 만들어 주는 것이다. 이를 위한 한 방법이 LSP(Language Server Protocol)인데, IDE상에서 다양한 프로그래밍 언어들에 대한 개발 편의 기능을 보편적으로 구현하기 위해 탄생한 프로토콜이다.
+
+NeoVim에도 LSP을 구성하면 코딩이 훨씬 편리하다. 다만 LSP는 초보자가 직접 구성하기 다소 까다로워서, 이번에는 `kickstart.nvim`에서 설정을 빌려와 구성해 보려 한다.
+
+## 🔭 Telescope Fuzzy Finder
+
+LSP에 앞서 Telescope Fuzzy Finder를 먼저 설치해야 한다. LSP 설정에 Telescope 플러그인 설정이 포함되어 있기 때문인데..
+
+그렇다면 Fuzzy Finder란 무엇이냐! 😎 Fuzzy Finder는 리스트에서 항목을 검색할 때 정확한 이름을 몰라도 대략적인 패턴만으로 빠르게 찾아주는 대화형 검색 도구이다. 
+
+예를 들어 `MyProjectController.java`라는 파일을 찾을 때 `mpc`나 `projcont` 같은 축약된 패턴만 입력해도 fuzzy matching 알고리즘이 관련 파일을 찾아준다. 터미널에서는 `fzf`가 가장 유명한 fuzzy finder이고, Neovim에서는 Telescope가 그 역할을 한다.
+
+### `kickstart.nvim`에서 Telescope 설정 복사
+
+Kickstart의 `init.lua`파일의 라인 360번 전후로 Telescope configuration이 있다. `Fuzzy Finder (files, lsp, etc)` 부터 시작해 해당 중괄호 모두를 복사하면 된다.
+
+```lua
+-- [[ kickstart.nvim/init.lua ]]
+
+{ -- Fuzzy Finder (files, lsp, etc)
+  'nvim-telescope/telescope.nvim',
+  -- [[ More configs.. ]]
+  config = function()
+    require('telescope').setup {
+      -- You can put your default mappings / updates / etc. in here
+      --  All the info you're looking for is in `:help telescope.setup()`
+      --
+      -- defaults = {
+      --   mappings = {
+      --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+      --   },
+      -- },
+      -- pickers = {}
+      extensions = {
+        ['ui-select'] = {
+          require('telescope.themes').get_dropdown(),
+        },
+      },
+    }
+    -- [[ More configs.. ]]
+  end,
+},
+```
+
+복사한 후에는 새로운 Lua 파일을 생성해 추가한다.
+
+```lua
+-- [[ lua/plugins/telescope.lua ]]
+
+return { -- Fuzzy Finder (files, lsp, etc)
+  'nvim-telescope/telescope.nvim',
+  -- 이후 설정들
+}
+```
+
+## 🔦 Telescope 커스텀 설정
+
+### 커스텀 키 매핑
+
+Kickstart의 기본 키 매핑은 다음과 같이 되어 있다.
+
+```lua
+vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
+vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
+vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
+vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
+vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
+vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+```
+
+개인적으로 리더 키를 사용하는 걸 선호하지 않아서, 리더 키 없이 키보드만 눌러도 되도록 바꿔 사용할 것이다.
+
+```lua
+vim.keymap.set('n', 'fw', builtin.grep_string, { desc = ':Telescope grep_string' })
+vim.keymap.set('n', 'fd', builtin.diagnostics, { desc = ':Telescope diagnostics' })
+vim.keymap.set('n', 'ff', builtin.find_files,  { desc = ':Telescope find_files' })
+vim.keymap.set('n', 'fg', builtin.live_grep,   { desc = ':Telescope live_grep' })
+vim.keymap.set('n', 'fh', builtin.help_tags,   { desc = ':Telescope help_tags' })
+vim.keymap.set('n', 'fk', builtin.keymaps,     { desc = ':Telescope keymaps' })
+vim.keymap.set('n', 'fb', builtin.buffers,     { desc = ':Telescope buffers' })
+```
+
+### 검색에서 제외할 파일 설정하기
+
+`find_files`, `live_grep`을 할 때 `node_modules`, `.git`, `.venv` 파일들은 검색하지 않고, 다른 숨겨진 파일들은 검색되도록 설정한다.
+
+```lua
+-- [[ lua/plugins/telescope.lua ]]
+
+-- Line 56
+pickers = {
+  find_files = {
+    file_ignore_patterns = { 'node_modules', '.git', '.venv' },
+    hidden = true,
+  },
+},
+
+-- Line 65
+live_grep = {
+  file_ignore_patterns = { 'node_modules', '.git', '.venv' },
+  additional_args = function(_)
+    return { '--hidden' }
+  end,
+},
+```
+
+## 💨 Telescope 단축키로 파일 및 심볼 검색하기
+
+### `find_files` 키맵
+
+단축키에 지정한 대로 노멀 모드에서 `ff`를 입력하면 telescope의 파일 검색 기능이 실행된다. 
+
+![find_files](image.png)
+
+![find_files: 검색어 입력](image-1.png)
+
+### `live_grep` 키맵
+
+노멀 모드에서 `fg`를 입력하면 단어를 검색할 수 있다.
+
+![live_grep](image-2.png)
+
+### `grep_string` 키맵
+
+검색할 단어 위에 커서를 배치하고 `fw` 단축키를 입력하면 해당 단어를 검색한다. 단축어는 `find_word`의 약자로 정하였다.
+
+![검색할 단어 위에 커서를 놓은 모습](image-3.png)
+
+![`fw`로 검색](image-4.png)
+
+## 🤖 LSP: Language Server Protocol
+
+### `kickstart.nvim`에서 LSP 설정 복사
+
+`kickstart.nvim`의 `init.lua`파일의 라인 480번 전후로 LSP configuration이 있다. Main LSP Configuration 부터 시작해 해당 중괄호 모두를 복사하면 된다. 약 250줄 이상의 분량이다.
+
+```lua
+-- [[ kickstart.nvim/init.lua ]]
+
+{
+  -- Main LSP Configuration
+  'neovim/nvim-lspconfig',
+  dependencies = {
+    -- [[ Dependency configs.. ]] 
+  },
+  config = function()
+    -- [[ More configs.. ]]
+
+    local servers = {
+      -- [[ Server configs.. ]]
+    }
+
+    -- Ensure the servers and tools above are installed
+    local ensure_installed = vim.tbl_keys(servers or {})
+    -- [[ Mason configs.. ]]
+  end,
+},
+```
+
+복사한 후에는 새로운 Lua 파일을 생성해 추가한다.
+
+```lua
+-- [[ lua/plugins/lsp.lua ]]
+
+return {
+  -- Main LSP Configuration
+  'neovim/nvim-lspconfig',
+
+  -- 이후 설정들
+}
+```
+
+### `undefined global vim` 에러
+
+플러그인을 저장하고 다시 실행하면 Lua 파일들에 `undefined global vim` 이라는 경고가 굉장히 많이 뜨게 된다.
+
+유튜브 영상에서 소개하는 해결 방법은 NeoVim 0.10에만 해당하고 0.11에서는 작동하지 않는다. [Github PR(클릭)](https://github.com/nvim-lua/kickstart.nvim/pull/1475/commits/a590ab6c8812ade054cf0f444ee53c1b0daa98a3)을 참고하여 코드 마지막을 다음과 같이 수정하면 경고가 사라진다.
+
+```lua
+-- [[ lua/plugins/lsp.lua ]]
+
+-- Line 211
+lua_ls = {
+  settings = {
+    Lua = {
+      completion = {
+        callSnippet = 'Replace',
+      },
+      runtime = { version = 'LuaJIT' },
+      workspace = {
+        checkThirdParty = false,
+        library = {
+          vim.env.VIMRUNTIME,
+        }
+      },
+      diagnostics = {
+        globals = { 'vim' },
+        disable = { 'missing-fields' },
+      },
+      format = {
+        enable = false,
+      },
+    },
+  },
+},
+
+-- Line 247
+local ensure_installed = vim.tbl_keys(servers or {})
+vim.list_extend(ensure_installed, {
+  'stylua', -- Used to format Lua code
+})
+require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+-- Handle LSP setups
+-- See :help vim.lsp.enable
+for server, config in pairs(servers) do 
+  vim.lsp.config(server, config)
+  vim.lsp.enable(server)
+end
+```
+
+## 📖 LSP 기본 설정 소개
+
+Kickstart의 LSP 설정에는 LSP를 쉽게 설치하고 관리하기 위한 플러그인들이 포함되어 있다.
+
+### 1. nvim-lspconfig (메인 플러그인)
+
+```lua
+'neovim/nvim-lspconfig'
+```
+
+- Neovim의 내장 LSP 클라이언트 설정을 쉽게 해주는 플러그인
+- 각 Language Server(`clangd`, `pyright` 등)를 Neovim에 연결하는 설정 제공
+- 하지만 **LSP 서버 자체를 설치해주지는 않는다.**
+
+### 2. mason.nvim
+
+```lua
+{ 'mason-org/mason.nvim', opts = {} }
+```
+
+- **LSP 서버, Linter, Formatter 등을 Neovim 안에서 설치/관리**하는 패키지 매니저
+- `:Mason` 명령어로 GUI를 열어서 필요한 도구들을 클릭만으로 설치 가능
+- 시스템에 직접 `sudo apt install clangd` 등의 명령어를 입력해서 서버를 설치할 필요가 없다! 😙
+- `opts = {}`는 `require('mason').setup({})`와 동일 (기본 설정으로 초기화)
+
+### 3. mason-lspconfig.nvim
+
+```lua
+'mason-org/mason-lspconfig.nvim'
+```
+
+- **Mason과 lspconfig를 연결**하는 브릿지 역할
+- Mason으로 설치한 LSP 서버를 lspconfig가 자동으로 인식하게 해 준다.
+- 서버 이름 매핑 (예: Mason의 `typescript-language-server` → lspconfig의 `tsserver`)
+- 자동 설치 기능 제공
+
+### 4. mason-tool-installer.nvim
+
+```lua
+'WhoIsSethDaniel/mason-tool-installer.nvim'
+```
+
+- **LSP 서버 외의 추가 도구들을 자동 설치**
+- Linter, Formatter, Debugger 등
+- 설정 파일에 필요한 도구 목록을 적어두면 Neovim 실행 시 자동으로 설치
+
+### 핵심 변화
+
+예전에는 시스템에 `sudo apt install clangd`등의 명령어를 입력해서 직접 설치해야 했다. 그러나 이제는 Mason으로 Neovim 안에서 `:Mason` 커맨드를 실행하고 `clangd`와 같이 검색하면 설치할 수 있고, 이것도 LSP 구성 함수 내에서 자동화되었다.
+
+## 🎛️ LSP 커스텀 설정하기
+
+### 필요한 language server 추가 설치
+
+위 설명처럼, 원하는 LSP 서버에 대해 코드 한 줄만 추가하면 재시작 시 자동으로 설치된다.
+
+나는 C를 자주 사용하고 개발 환경 설정을 위해 도커 환경을 세팅할 일이 많아 이 두 언어 서버를 우선 설치하였다.
+
+```lua
+-- Line 198
+clangd = {},
+dockerls = {},
+```
+
+### 키맵 설정하기
+
+인텔리제이에서 `Ctrl`을 누른 상태로 변수를 클릭하면 변수의 정의로 이동할 수 있는 것처럼 LSP도 비슷한 기능을 제공한다. 다음은 이를 위한 단축키이다.
+
+Telescope 단축키를 설정했던 것과 마찬가지로 리더 키를 사용하지 않도록 구성했다.
+
+```lua
+-- User-configured keymaps, this is not from kickstart
+local builtin = require('telescope.builtin')
+
+-- Most Language Servers support renaming across files, etc.
+vim.keymap.set('n', 'gn', vim.lsp.buf.rename, { desc = 'Rename the variable under your cursor' })
+
+-- Find references for the word under your cursor.
+vim.keymap.set('n', 'gr', builtin.lsp_references, { desc = '[G]oto [R]eferences' })
+
+-- Useful when your language has ways of declaring types without an actual implementation.
+vim.keymap.set('n', 'gi', builtin.lsp_implementations, { desc = '[G]oto [I]mplementation' })
+
+-- This is where a variable was first declared, or where a function is defined, etc.
+-- To jump back, press <C-t>.
+vim.keymap.set('n', 'gd', builtin.lsp_definitions, { desc = '[G]oto [D]efinition' })
+```
+
+## ✨ 마치며
+
+단순 preference 설정이 아니라 실제 기능을 구성해야 하다 보니 시간이 오래 걸렸다. 사실 실제 개발보다 C 코드를 분석할 일이 많아서 라이브러리를 찾지 못한다는 에러가 너무 많아 그동안 LSP를 끄고 지냈는데, 블로그를 포스팅하며 설정을 다시 들여다볼 수 있었다.
+
+보통 여기에 LazyGit 등 Git configuration을 같이 넣는 경우가 많은데, 난 git은 그냥 터미널로 관리하는게 편해서 구성하지 않았다. 원본 영상에는 포함되어 있기 때문에 참고하면 좋을 것 같다.

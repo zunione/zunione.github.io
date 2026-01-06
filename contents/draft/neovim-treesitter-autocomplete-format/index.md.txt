@@ -1,8 +1,8 @@
 ---
-title: "[NeoVim] Dignostics를 위한 Telescope 및 LSP 설정"
+title: "[NeoVim] Dignostics를 위한 Telescope 및 LSP 설정2"
 description: "NeoVim configuration #7"
-date: 2025-11-12
-update: 2025-11-12
+date: 2025-11-24
+update: 2025-11-24
 tags:
   - neovim
   - ide
@@ -123,7 +123,7 @@ live_grep = {
 
 ## 💨 Telescope 단축키로 파일 및 심볼 검색하기
 
-### `find_files`
+### `find_files` 키맵
 
 단축키에 지정한 대로 노멀 모드에서 `ff`를 입력하면 telescope의 파일 검색 기능이 실행된다. 
 
@@ -131,11 +131,19 @@ live_grep = {
 
 ![find_files: 검색어 입력](image-1.png)
 
-### `live_grep`
+### `live_grep` 키맵
 
 노멀 모드에서 `fg`를 입력하면 단어를 검색할 수 있다.
 
 ![live_grep](image-2.png)
+
+### `grep_string` 키맵
+
+검색할 단어 위에 커서를 배치하고 `fw` 단축키를 입력하면 해당 단어를 검색한다. 단축어는 `find_word`의 약자로 정하였다.
+
+![검색할 단어 위에 커서를 놓은 모습](image-3.png)
+
+![`fw`로 검색](image-4.png)
 
 ## 🤖 LSP: Language Server Protocol
 
@@ -281,7 +289,9 @@ Kickstart의 LSP 설정에는 LSP를 쉽게 설치하고 관리하기 위한 플
 
 ### 필요한 language server 추가 설치
 
-위 설명처럼, Kickstart의 설정을 빌려오면 원하는 LSP 서버에 대해 코드 한 줄만 추가하면 재시작 시 자동으로 설치된다.
+위 설명처럼, 원하는 LSP 서버에 대해 코드 한 줄만 추가하면 재시작 시 자동으로 설치된다.
+
+나는 C를 자주 사용하고 개발 환경 설정을 위해 도커 환경을 세팅할 일이 많아 이 두 언어 서버를 우선 설치하였다.
 
 ```lua
 -- Line 198

@@ -82,7 +82,7 @@ require('lazy').setup('plugins')
 
 플러그인 설치 코드를 작성하는 방법은 두 가지가 있다.
 
-1. `plugins` 폴더에 있는 모든 플러그인을 무조건 설치한다.
+**1. `plugins` 폴더에 있는 모든 플러그인을 무조건 설치한다.**
 
 플러그인은 `lua/plugins/` 폴더에서 관리한다. 다음과 같이 코드를 작성하면 해당 폴더의 모든 플러그인이 항상 설치된다.
 
@@ -90,7 +90,7 @@ require('lazy').setup('plugins')
 require('lazy').setup('plugins')
 ```
 
-2. 설치할 플러그인을 명시적으로 설정한다.
+**2. 설치할 플러그인을 명시적으로 설정한다.**
 
 플러그인 폴더에서 원하는 플러그인들을 직접 작성한다. 
 
@@ -136,6 +136,22 @@ return {
 
 처음 설치한 파일트리는 각종 불필요한 Git 아이콘들이 중복되어 표시되는 등 불편함이 많다. 이를 VSCode 스타일로 변경한다.
 
+### Filtered files 모두 표시
+
+neotree는 기본적으로 dotfiles와 gitignore 파일을 숨긴다. 그러나 이 파일들이 파일 트리에 표시되어야 편할 때가 많아서, 숨김 옵션을 명시적으로 비활성화해 주었다.
+
+`opts` 중괄호 안에 다음과 같이 설정한다.
+
+```lua
+filesystem = {
+  filtered_items = {
+    visible = true,
+    dotfiles = false, -- .으로 시작하는 파일 항상 보기
+    git_ignored = false, -- gitignore된 파일 항상 보기
+  }
+},
+```
+
 ### Git status와 색상 설정
 
 VSCode의 경우 `Untracked`와 `Added`가 모두 초록색, `Modified`가 노란색, 기타 에러가 빨간색이다. 이를 반영하는 동시에 혼잡한 아이콘을 모두 동일한 원 아이콘으로 바꿔서 가독성을 높이려고 한다.
@@ -176,12 +192,17 @@ config = function(_, opts)
     highlight NeoTreeGitAdded guifg=#73C991
     highlight NeoTreeGitDeleted guifg=#E06C75
     highlight NeoTreeGitConflict guifg=#E06C75
+
+    highlight NeoTreeDotFile guifg=#8C8C8C
+    highlight NeoTreeFilteredItem guifg=#8C8C8C
   ]])
 ```
 
-색상 설정은 `require("neo-tree").setup(opts)`로 기본 옵션을 적용한 후에 덧입혀야 한다. 설정하고 나면 다음과 같이 아름답게😘 나타난다.
+색상 설정은 `require("neo-tree").setup(opts)`로 기본 옵션을 적용한 후에 덧입혀야 한다. 
 
-![alt text](image-3.png)
+Git status 관련 파일들은 VSCode와 같은 색상으로, filtered 파일들은 회색으로 설정했다. 설정하고 나면 다음과 같이 아름답게😘 나타난다.
+
+![Customized neotree](image-4.png)
 
 ### 파일 트리 자동 토글
 
