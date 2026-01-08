@@ -1,21 +1,21 @@
 ---
-title: "[NeoVim] Lazy.nvim 플러그인 매니저와 파일 트리 설치"
-description: "NeoVim configuration #2"
+title: "[Neovim] Lazy.nvim 플러그인 매니저와 파일 트리 설치"
+description: "Neovim configuration #2"
 date: 2025-10-30
 update: 2025-11-11
 tags:
   - neovim
   - ide
-series: "NeoVim으로 개발환경 구축하기"
+series: "Neovim으로 개발환경 구축하기"
 ---
 
 ## 🚀 들어가며
 
-NeoVim을 설치했으니 이제 나만의 configuration을 시작해볼 차례다. 가장 기본이 되는 플러그인 매니저 설치부터 시작한다. 💪
+Neovim을 설치했으니 이제 나만의 configuration을 시작해볼 차례다. 가장 기본이 되는 플러그인 매니저 설치부터 시작한다. 💪
 
-NeoVim이 처음 나왔을 때에 주로 사용되던 매니저는 `vim-plug`이다. 이전의 Vundle이나 Pathogen 같은 매니저들보다 훨씬 단순하고 설정이 간편했지만 VimScript 기반이라는 한계가 있었다.
+Neovim이 처음 나왔을 때에 주로 사용되던 매니저는 `vim-plug`이다. 이전의 Vundle이나 Pathogen 같은 매니저들보다 훨씬 단순하고 설정이 간편했지만 VimScript 기반이라는 한계가 있었다.
 
-NeoVim의 Lua 지원을 활용하기 위해 개발된 것이 `packer`이다. Lua는 Vimscript보다 빠르고 효율적이며, 현대적인 프로그래밍 언어의 기능들을 제공한다.
+Neovim의 Lua 지원을 활용하기 위해 개발된 것이 `packer`이다. Lua는 Vimscript보다 빠르고 효율적이며, 현대적인 프로그래밍 언어의 기능들을 제공한다.
 
 요즘 보편적으로 사용하는 플러그인 매니저는 `lazy.nvim`이다. 코드가 간결하고 이해하기 쉬우며, 지연 로딩(lazy loading) 최적화로 매우 빠른 실행 속도를 자랑한다.
 
@@ -122,7 +122,7 @@ return {
 }
 ```
 
-위와 같이 `neotree.lua` 파일을 작성하고 NeoVim을 다시 실행하면 플러그인이 설치된다.
+위와 같이 `neotree.lua` 파일을 작성하고 Neovim을 다시 실행하면 플러그인이 설치된다.
 
 ![neo-tree](image.png)
 
@@ -206,7 +206,7 @@ Git status 관련 파일들은 VSCode와 같은 색상으로, filtered 파일들
 
 ### 파일 트리 자동 토글
 
-그리고 NeoVim을 처음 켜면 파일 트리가 닫혀 있는데, 이게 불편해서 자동으로 파일 트리가 토글되도록 했다.
+그리고 Neovim을 처음 켜면 파일 트리가 닫혀 있는데, 이게 불편해서 자동으로 파일 트리가 토글되도록 했다.
 
 ```lua
   -- Nvim이 시작될 때 Neo-tree를 자동으로 엽니다.

@@ -9,6 +9,7 @@ title: "서버 개발자 Hudi 입니다."
 ### Skills
 
 - RTEMS
+- GR740, BeagleBone
 - Android Studio, Flutter
 <!-- - MySQL, Redis, Kafka -->
 
