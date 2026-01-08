@@ -1,19 +1,19 @@
 ---
-title: "[NeoVim] Dignostics를 위한 Telescope 및 LSP 설정"
-description: "NeoVim configuration #7"
+title: "[Neovim] Dignostics를 위한 Telescope 및 LSP 설정"
+description: "Neovim configuration #7"
 date: 2025-11-24
 update: 2025-11-24
 tags:
   - neovim
   - ide
-series: "NeoVim으로 개발환경 구축하기"
+series: "Neovim으로 개발환경 구축하기"
 ---
 
 ## 🚀 들어가며
 
 IDE를 사용하는 가장 큰 이유 중 하나는 에러나 경고를 컴파일 전에 탐지해 코딩을 용이하게 만들어 주는 것이다. 이를 위한 한 방법이 LSP(Language Server Protocol)인데, IDE상에서 다양한 프로그래밍 언어들에 대한 개발 편의 기능을 보편적으로 구현하기 위해 탄생한 프로토콜이다.
 
-NeoVim에도 LSP을 구성하면 코딩이 훨씬 편리하다. 다만 LSP는 초보자가 직접 구성하기 다소 까다로워서, 이번에는 `kickstart.nvim`에서 설정을 빌려와 구성해 보려 한다.
+Neovim에도 LSP을 구성하면 코딩이 훨씬 편리하다. 다만 LSP는 초보자가 직접 구성하기 다소 까다로워서, 이번에는 `kickstart.nvim`에서 설정을 빌려와 구성해 보려 한다.
 
 ## 🔭 Telescope Fuzzy Finder
 
@@ -191,7 +191,7 @@ return {
 
 플러그인을 저장하고 다시 실행하면 Lua 파일들에 `undefined global vim` 이라는 경고가 굉장히 많이 뜨게 된다.
 
-유튜브 영상에서 소개하는 해결 방법은 NeoVim 0.10에만 해당하고 0.11에서는 작동하지 않는다. [Github PR(클릭)](https://github.com/nvim-lua/kickstart.nvim/pull/1475/commits/a590ab6c8812ade054cf0f444ee53c1b0daa98a3)을 참고하여 코드 마지막을 다음과 같이 수정하면 경고가 사라진다.
+유튜브 영상에서 소개하는 해결 방법은 Neovim 0.10에만 해당하고 0.11에서는 작동하지 않는다. [Github PR(클릭)](https://github.com/nvim-lua/kickstart.nvim/pull/1475/commits/a590ab6c8812ade054cf0f444ee53c1b0daa98a3)을 참고하여 코드 마지막을 다음과 같이 수정하면 경고가 사라진다.
 
 ```lua
 -- [[ lua/plugins/lsp.lua ]]

@@ -1,31 +1,33 @@
 ---
-title: "[NeoVim] NeoVim 마무리: 시작 화면과 터미널 설정"
-description: "NeoVim configuration #7"
+title: "[Neovim] Neovim 마무리: 시작 화면과 터미널 토글"
+description: "Neovim configuration #7"
 date: 2025-12-01
 update: 2025-12-01
 tags:
   - neovim
   - ide
-series: "NeoVim으로 개발환경 구축하기"
+series: "Neovim으로 개발환경 구축하기"
 ---
 
 ## 🚀 들어가며
 
 지금까지 플러그인 매니저, 파일 트리, 버퍼라인, 각종 옵션, 코드 진단을 위한 언어 서버(LSP) 등을 살펴보았다.
 
-직접 configuration이 가능한 만큼 NeoVim의 각종 설정과 플러그인은 무궁무진하다. 내 개인 설정은 NeoVim을 켜면 가장 먼저 대시보드가 뜨게 하는 플러그인과 터미널 플러그인을 구성하는 것으로 마무리하지만, NeoVim을 200% 활용하기 위해서는 이 외에도 자신에게 맞는 설정을 찾아다니는 것이 중요하다.
+직접 configuration이 가능한 만큼 Neovim의 각종 설정과 플러그인은 무궁무진하다. 내 개인 설정은 Neovim을 켜면 가장 먼저 대시보드가 뜨게 하는 플러그인과 터미널 플러그인을 구성하는 것으로 마무리하지만, Neovim을 200% 활용하기 위해서는 이 외에도 자신에게 맞는 설정을 찾아다니는 것이 중요하다.
 
-**참고**: NeoVim에서 필수로 여겨지지만 나에게 필요하지 않아서 추가하지 않은 플러그인에는 `treesitter`, `autocompletion`, `autoformatting`이 있다. 나는 주로 C 코드 분석만 하기 때문에 건너뛰었지만 이 기능이 필요하다면 유튜브 영상을 참고해 구성하는 것을 권장한다.
+**참고**: Neovim에서 필수로 여겨지지만 나에게 필요하지 않아서 추가하지 않은 플러그인에는 `treesitter`, `autocompletion`, `autoformatting`이 있다. 나는 주로 C 코드 분석만 하기 때문에 건너뛰었지만 이 기능이 필요하다면 유튜브 영상을 참고해 구성하는 것을 권장한다.
 
 ## 🌅 대시보드 플러그인: `alpha-nvim`
 
-Barbar 플러그인을 설정하면 NeoVim을 켤 때 자동으로 빈 버퍼가 나타난다. 솔직히 미관상 별로이다.😑 다른 사람들도 그렇게 생각했는지 NeoVim을 켜면 대시보드가 나타나도록 하는 플러그인을 여러 가지 만들어 놓았다! 🤩
+Barbar 플러그인을 설정하면 Neovim을 켤 때 자동으로 빈 버퍼가 나타난다. 솔직히 미관상 별로이다.😑 다른 사람들도 그렇게 생각했는지 Neovim을 켜면 대시보드가 나타나도록 하는 플러그인을 여러 가지 만들어 놓았다! 🤩
 
 [`alpha-nvim` Github(클릭)](https://github.com/goolord/alpha-nvim)에서 설정을 복사해 `plugins` 폴더 내 새로운 파일을 만들어 추가한다.
 
 현재 모든 아이콘을 `nvim-web-devicons` 라이브러리에서 가져다 쓰고 있으므로 동일하게 맞춰준다.
 
 ```lua
+-- [[ lua/plugins/alpha-nvim.lua ]]
+
 return {
   "goolord/alpha-nvim",
   -- dependencies = { 'nvim-mini/mini.icons' },
@@ -55,6 +57,8 @@ return {
 Dashboard-nvim 테마는 startify와 달리 적용된 아이콘 라이브러리를 자동 감지하기 때문에 명시적으로 아이콘을 설정하지 않아도 된다. config 함수 내부를 다음과 같이 수정한다.
 
 ```lua
+-- [[ lua/plugins/alpha-nvim.lua ]]
+
 return {
   "goolord/alpha-nvim",
   -- dependencies = { 'nvim-mini/mini.icons' },
@@ -76,11 +80,14 @@ return {
 
 ## 🪄 파일 트리 자동 토글
 
-일반적으로 VSCode는 파일 트리를 한 번 켜면 이후에 에디터를 켤 때도 파일 트리가 계속 나타난다. NeoVim에서도 마찬가지로 파일 트리가 무조건 나타나게 하고 싶었다.
+일반적으로 VSCode는 파일 트리를 한 번 켜면 이후에 에디터를 켤 때도 파일 트리가 계속 나타난다. Neovim에서도 마찬가지로 파일 트리가 무조건 나타나게 하고 싶었다.
 
 Neo-tree 플러그인에서 자동 토글을 켜 봤는데, 대시보드를 가리는 형태로 나타나서 대시보드 플러그인에서 파일 트리를 토글하는 방식으로 변경했다.
 
 ```lua
+-- [[ lua/plugins/alpha-nvim.lua ]]
+
+-- Line 13
 -- alpha 대시보드가 켜질 때(파일 타입이 'alpha'가 될 때) neo-tree도 같이 열기
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "alpha", -- alpha 대시보드의 파일 타입
@@ -114,6 +121,8 @@ vim.api.nvim_create_autocmd("FileType", {
 기본 토글 단축키는 `Ctrl + \`인데, 나는 단축키를 `Ctrl + t`로 변경할 예정이기 때문에 두 번째 configuration으로 구성했다.
 
 ```lua
+-- [[ lua/plugins/toggleterm.lua ]]
+
 return {
   'akinsho/toggleterm.nvim',
   version = "*",
@@ -127,6 +136,8 @@ return {
 ### 터미널 위치 변경하기
 
 나는 터미널을 윈도우의 가장 아래에 배치하는 기본 설정을 따르고 있는데, `float` 설정으로 사용하는 사람들도 굉장히 많다. 다음은 터미널이 hover 되게 하는 코드이다.
+
+내 코드에는 float 설정이 적용되어 있지 않아 실제로 적용하려면 좀 더 검색이 필요하다.
 
 **1. 기본 설정에서 float로 지정**
 
@@ -169,7 +180,7 @@ vim.keymap.set("n", "<leader>ft", "<cmd>lua _float_term_toggle()<CR>", {noremap 
 
 ## ✨ 마치며
 
-내가 현재 사용하는 모든 NeoVim configuration에 대한 포스팅이 마무리되었다.
+내가 현재 사용하는 모든 Neovim configuration에 대한 포스팅이 마무리되었다.
 
 보통 여기에 LazyGit 등 Git configuration을 같이 넣는 경우가 많은데, 난 git은 그냥 터미널로 관리하는게 편해서 구성하지 않았다. 원본 영상에는 포함되어 있기 때문에 참고하면 좋을 것 같다.
 

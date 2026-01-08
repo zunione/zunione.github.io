@@ -1,12 +1,12 @@
 ---
-title: "[NeoVim] Bufferline, Statusline, Scrollbar 구성"
-description: "NeoVim configuration #4"
+title: "[Neovim] Bufferline, Statusline, Scrollbar 구성"
+description: "Neovim configuration #4"
 date: 2025-11-04
 update: 2025-11-04
 tags:
   - neovim
   - ide
-series: "NeoVim으로 개발환경 구축하기"
+series: "Neovim으로 개발환경 구축하기"
 ---
 
 ## 🚀 들어가며
@@ -195,7 +195,7 @@ vim.api.nvim_set_hl(0, 'BufferTabpageFill', { bg = '#181818' })
 
 ![오렌지색 버퍼](image-6.png)
 
-설정을 저장하고 NeoVim을 재시작했을 때 버퍼라인의 모습이다. 
+설정을 저장하고 Neovim을 재시작했을 때 버퍼라인의 모습이다. 
 
 ## 💫 Statusline: `lualine`
 
