@@ -1,6 +1,6 @@
 ---
 title: "[Neovim] Neovim 마무리: 시작 화면과 터미널 토글"
-description: "Neovim configuration #7"
+description: "Neovim configuration #8"
 date: 2025-12-01
 update: 2025-12-01
 tags:
