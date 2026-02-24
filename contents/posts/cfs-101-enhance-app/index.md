@@ -227,7 +227,7 @@ vi temp_mon_msg.h
 이후 `temp_mon_app.c`의 `TEMP_MON_ReportHousekeeping()` 함수에 데이터 배포 로직을 추가한다.
 
 ```bash
-vi temp_mon_app.h
+vi temp_mon_app.c
 ```
 
 ![Changes for temp_mon_app.c](image-18.png)
