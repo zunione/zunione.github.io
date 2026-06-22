@@ -1,8 +1,8 @@
 ---
 title: "[WSL2] C 드라이브 용량 부족 해결: ext4.vhdx 압축하기"
 description: "Learning cFS framework #11"
-date: 2026-06-23
-update: 2026-06-23
+date: 2026-06-22
+update: 2026-06-22
 tags:
   - wsl
   - docker

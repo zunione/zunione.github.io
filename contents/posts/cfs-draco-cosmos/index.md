@@ -1,8 +1,8 @@
 ---
 title: "[cFS] cFS를 OpenC3 COSMOS와 함께 활용하기"
 description: "Learning cFS framework #10"
-date: 2026-06-22
-update: 2026-06-22
+date: 2026-06-19
+update: 2026-06-19
 tags:
   - nasa-cfs
   - fsw
