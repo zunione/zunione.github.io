@@ -1,8 +1,8 @@
 ---
 title: "[cFS] cFS를 OpenC3 COSMOS와 함께 활용하기"
 description: "Learning cFS framework #10"
-date: 2026-06-19
-update: 2026-06-19
+date: 2026-06-22
+update: 2026-06-22
 tags:
   - nasa-cfs
   - fsw
@@ -102,13 +102,16 @@ openc3-operator:
 
 이전 포스트를 실습했다면 클론해놓은 cFS 디렉토리에서 그대로 진행하면 되고, 실습하지 않았다면 상위 디렉토리로 가서 cFS를 불러온다.
 
+`cfs-cosmos-plugin`은 cFS v7.0.1부터 포함되어 있기 때문에 해당 브랜치로 체크아웃하고 진행한다.
+
 ⚠️주의⚠️: 이전에 남아 있던 cFS를 사용한다면, `build` 디렉토리를 꼭 삭제해 주어야 한다.
 
 ```bash
+cd ${cosmos-dir}/..
 git clone https://github.com/nasa/cFS.git
 cd cFS
 git checkout v7.0.1
-rm -rf build
+rm -rf build # Just to be sure
 ```
 
 이제 cFS 내부에 Dockerfile을 추가해 빌드 시 도커 컨테이너가 생성되게 한다.
@@ -191,30 +194,21 @@ make native_std.prep
 make native_std.install 
 ```
  
-### 플러그인 클론 및 빌드
+### 플러그인 빌드
  
-파일 트리 생성이 완료되었다면 NASA cFS 팀이 공식 배포하는 플러그인을 클론한다. `cFS/tools`에 `cfs-cosmos-plugin` 서브모듈이 있지만, 우리는 cFS 자체를 도커로 실행했기 때문에 해당 서브모듈을 사용할 수 없다.
- 
-```bash
-cd ..  # move to parent directory (alongside cosmos-project and cFS)
-git clone https://github.com/nasa/cfs-cosmos-plugin.git
-cd cfs-cosmos-plugin
-git checkout v7.0.1
-```
- 
-빌드 버전은 자유롭게 지정할 수 있다.
+파일 트리 생성이 완료되었다면 NASA cFS 팀이 공식 배포하는 플러그인 디렉토리에서 빌드한다. 
+
+`openc3.sh` 셸 스크립트는 PATH에 등록해도 되고, 아래 명령어처럼 경로를 명시적으로 알려주어도 된다. 빌드 버전은 자유롭게 지정할 수 있다.
  
 ```bash
-make gem O=~/cFS/build-native_std/
-cd ~/cFS/build-native_std/cosmos/plugin
+cd cFS/tools/cfs-cosmos-plugin
 ~/cosmos-project/openc3.sh cli rake build VERSION=1.0.0
 ```
- 
+![openc3.sh cli rake build](image-12.png)
+
 빌드 완료 시 `openc3-cosmos-cfs-1.0.0.gem` 파일이 생성된다.
 
-![openc3 rake build](image-7.png)
-
-![la -al ~/cFS/build-native_std/cosmos/plugin](image-8.png)
+![la -al ~/cFS/tools/cfs-cosmos-plugin](image-7.png)
 
 이 파일을 꼭 로컬로 다운받아 주어야 한다.
 
