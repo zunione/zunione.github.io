@@ -19,7 +19,7 @@ const Header = styled.div`
 const Title = styled.h1`
   margin-bottom: 15px;
   line-height: 1.2;
-  font-size: 44.8px;
+  font-size: 36px;
   font-weight: bold;
   color: ${props => props.theme.colors.text};
   word-break: break-all;
