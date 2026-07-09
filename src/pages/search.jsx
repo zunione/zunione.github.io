@@ -38,7 +38,6 @@ const Search = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title={title} description={description} url={siteUrl} />
       <SearchWrapper>
         <Title size="sm">
           There are {filteredPosts.length} post{filteredPosts.length > 1 && "s"}
@@ -57,10 +56,14 @@ const Search = ({ data }) => {
 
 export default Search
 
+export const Head = () => (
+  <SEO title={title} description={description} url={siteUrl} />
+)
+
 export const pageQuery = graphql`
   query {
     allMarkdownRemark(
-      sort: { fields: [frontmatter___date], order: DESC }
+      sort: { frontmatter: { date: DESC } }
       filter: { fileAbsolutePath: { regex: "/contents/posts/" } }
     ) {
       nodes {

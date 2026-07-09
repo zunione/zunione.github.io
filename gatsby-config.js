@@ -38,7 +38,6 @@ module.exports = {
       },
     },
     "gatsby-plugin-styled-components",
-    `gatsby-plugin-react-helmet`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
@@ -64,9 +63,7 @@ module.exports = {
     {
       resolve: `gatsby-transformer-remark`,
       options: {
-        commonmark: true,
         footnotes: true,
-        pedantic: true,
         gfm: true,
         plugins: [
           {
@@ -175,7 +172,7 @@ module.exports = {
             query: `
               {
                 allMarkdownRemark(
-                  sort: { order: DESC, fields: [frontmatter___date] },
+                  sort: { frontmatter: { date: DESC } },
                   filter: { fileAbsolutePath: { regex: "/contents/posts/" } },
                 ) {
                   edges {

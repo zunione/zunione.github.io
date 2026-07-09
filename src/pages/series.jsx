@@ -38,8 +38,6 @@ const SeriesPage = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title={title} description={description} url={siteUrl} />
-
       <TagListWrapper>
         {series.length > 0 && (
           <Title size="sm">There are {series.length} series.</Title>
@@ -57,6 +55,10 @@ const SeriesPage = ({ data }) => {
 
 export default SeriesPage
 
+export const Head = () => (
+  <SEO title={title} description={description} url={siteUrl} />
+)
+
 export const pageQuery = graphql`
   query {
     site {
@@ -65,10 +67,10 @@ export const pageQuery = graphql`
       }
     }
     allMarkdownRemark(
-      sort: { fields: [frontmatter___date], order: DESC }
+      sort: { frontmatter: { date: DESC } }
       filter: { fileAbsolutePath: { regex: "/contents/posts/" } }
     ) {
-      group(field: frontmatter___tags) {
+      group(field: { frontmatter: { tags: SELECT } }) {
         fieldValue
         totalCount
       }

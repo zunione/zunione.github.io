@@ -34,7 +34,6 @@ const Post = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title={title} description={excerpt} url={`${siteUrl}${slug}`} />
       <Article>
         <Article.Header
           title={title}
@@ -54,6 +53,15 @@ const Post = ({ data }) => {
 }
 
 export default Post
+
+export const Head = ({ data }) => {
+  const post = data.markdownRemark
+  const { title } = post.frontmatter
+  const { excerpt } = post
+  const { slug } = post.fields
+
+  return <SEO title={title} description={excerpt} url={`${siteUrl}${slug}`} />
+}
 
 export const pageQuery = graphql`
   query BlogPostBySlug(
@@ -86,7 +94,7 @@ export const pageQuery = graphql`
       }
     }
     seriesList: allMarkdownRemark(
-      sort: { order: ASC, fields: [frontmatter___date] }
+      sort: { frontmatter: { date: ASC } }
       filter: { frontmatter: { series: { eq: $series } } }
     ) {
       edges {

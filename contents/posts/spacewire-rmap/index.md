@@ -5,6 +5,7 @@ date: 2026-07-09
 update: 2026-07-09
 tags:
   - spacewire
+  - rmap
   - protocol
 series: "위성 속 통신 프로토콜"
 ---

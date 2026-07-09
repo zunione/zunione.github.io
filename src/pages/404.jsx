@@ -32,7 +32,6 @@ const NotFound = styled.div`
 
 const NotFoundPage = () => (
   <Layout>
-    <SEO title={title} description={description} url={siteUrl} />
     <NotFound>
       <h2>404 ERROR</h2>
       <h3>Page Not Found X(</h3>
@@ -41,3 +40,7 @@ const NotFoundPage = () => (
 )
 
 export default NotFoundPage
+
+export const Head = () => (
+  <SEO title={title} description={description} url={siteUrl} />
+)

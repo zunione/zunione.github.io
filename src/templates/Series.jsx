@@ -59,12 +59,6 @@ const Series = ({ pageContext, data }) => {
 
   return (
     <Layout>
-      <SEO
-        title={`SERIES: ${seriesName}`}
-        description={description}
-        url={siteUrl}
-      />
-
       <Header>
         <Subtitle> SERIES </Subtitle>
         <Title> {seriesName} </Title>
@@ -87,10 +81,18 @@ const Series = ({ pageContext, data }) => {
 
 export default Series
 
+export const Head = ({ pageContext }) => (
+  <SEO
+    title={`SERIES: ${pageContext.series}`}
+    description={description}
+    url={siteUrl}
+  />
+)
+
 export const pageQuery = graphql`
   query BlogSeriesBySeriesName($series: String) {
     posts: allMarkdownRemark(
-      sort: { order: ASC, fields: [frontmatter___date] }
+      sort: { frontmatter: { date: ASC } }
       filter: { frontmatter: { series: { eq: $series } } }
     ) {
       nodes {

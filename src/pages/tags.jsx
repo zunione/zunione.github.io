@@ -54,8 +54,6 @@ const TagsPage = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title={title} description={description} url={siteUrl} />
-
       <TagListWrapper>
         {selected ? (
           <Title size="sm">
@@ -91,6 +89,10 @@ const TagsPage = ({ data }) => {
 
 export default TagsPage
 
+export const Head = () => (
+  <SEO title={title} description={description} url={siteUrl} />
+)
+
 export const pageQuery = graphql`
   query {
     site {
@@ -99,10 +101,10 @@ export const pageQuery = graphql`
       }
     }
     allMarkdownRemark(
-      sort: { fields: [frontmatter___date], order: DESC }
+      sort: { frontmatter: { date: DESC } }
       filter: { fileAbsolutePath: { regex: "/contents/posts/" } }
     ) {
-      group(field: frontmatter___tags) {
+      group(field: { frontmatter: { tags: SELECT } }) {
         fieldValue
         totalCount
       }

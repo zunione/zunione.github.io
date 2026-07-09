@@ -38,7 +38,6 @@ const BlogIndex = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title={title} description={description} url={siteUrl} />
       <VerticalSpace size={48} />
       <Bio />
       <Tab postsCount={postsCount} activeTab="about" />
@@ -57,6 +56,10 @@ const BlogIndex = ({ data }) => {
 }
 
 export default BlogIndex
+
+export const Head = () => (
+  <SEO title={title} description={description} url={siteUrl} />
+)
 
 export const pageQuery = graphql`
   query {
