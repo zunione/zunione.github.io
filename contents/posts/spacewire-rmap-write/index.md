@@ -1,5 +1,5 @@
 ---
-title: "[SPW] SpaceWire 프로토콜 #2: 상위 프로토콜 RMAP (1)"
+title: "[SPW] SpaceWire 프로토콜 #2: RMAP (1) - Write/Status Code"
 description: "Space & Embedded Protocols #2"
 date: 2026-07-09
 update: 2026-07-09
@@ -21,6 +21,14 @@ SpaceWire는 공식적으로 두 개의 상위 프로토콜을 제공한다. 메
 - [ECSS-E-ST-50-52C – SpaceWire – Remote memory access protocol (5 February 2010) (Web)](https://ecss.nl/standard/ecss-e-st-50-52c-spacewire-remote-memory-access-protocol-5-february-2010/)
 - [ECSS-E-ST-50-52C – SpaceWire – Remote memory access protocol (5 February 2010) (PDF)](https://ecss.nl/wp-content/uploads/standards/ecss-e/ECSS-E-ST-50-52C5February2010.pdf)
 
+> **저작권 안내**
+> 
+> 본 포스트에 포함된 일부 이미지는 ECSS(European Cooperation for Space Standardization) 문서(ECSS-E-ST-50-52C 등)에서 발췌 캡처한 것이며, 해당 이미지의 저작권은 ESA/ECSS에 있습니다. 본 캡처는 비상업적 개인 기술 블로그에서의 학습 및 정보 공유 목적으로만 사용되었으며, 각 이미지 하단에 출처 문서를 표기하였습니다. 저작권 관련 문제가 있을 경우 알려주시면 즉시 수정 또는 삭제하겠습니다.
+> 
+> **Copyright Notice**
+> 
+> Some images in this post are captured excerpts from ECSS (European Cooperation for Space Standardization) documents (e.g., ECSS-E-ST-50-52C), and copyright for those images belongs to ESA/ECSS. These captures are used solely for non-commercial, educational purposes on a personal technical blog, with the source document noted below each image. If you have any copyright issues, please contact me and I will edit or remove the content promptly.
+
 ## 🗞️ RMAP Command의 종류
 
 RMAP에는 **Write Command**, **Read Command**, 그리고 **Read-Modify-Write Command** 세 가지 명령이 존재한다. 세 Command 모두 타겟 노드의 메모리 공간에 접근한다는 공통점을 가지며, 접근 방식과 Reply 발생 여부에서 차이가 있다.
@@ -35,7 +43,7 @@ RMAP에는 **Write Command**, **Read Command**, 그리고 **Read-Modify-Write Co
 
 ## 🧢 Write Command Header
 
-![Write Command Target Address](image.png)
+![출처: ECSS-E-ST-50-52C, Figure 5-1](image.png)
 
 SPW 패킷의 헤더는 항상 "타겟으로 가는 경로"이다. 이전 포스트에서 설명했듯 네트워크가 path addressing을 채택하고 있다면 경로 정보를 모두 담고, logical addressing을 채택하고 있다면 TLA만 담도록 한 후 라우터에 라우팅 테이블을 모두 구성해야 한다.
 
@@ -43,7 +51,7 @@ SPW 패킷의 헤더는 항상 "타겟으로 가는 경로"이다. 이전 포스
 
 ### Protocol ID
 
-![Protocol Identifier Field](image-1.png)
+![출처: ECSS-E-ST-50-52C, Figure 5-1](image-1.png)
 
 SPW Target Hardware는 최종 카고를 받으면 가장 먼저 첫 바이트를 확인해 이것이 어떤 패킷인지 확인한다.
 
@@ -51,18 +59,18 @@ SPW Target Hardware는 최종 카고를 받으면 가장 먼저 첫 바이트를
 
 ### Instruction
 
-![Instruction Field](image-2.png)
+![출처: ECSS-E-ST-50-52C, Figure 5-1](image-2.png)
 
 Instruction 필드는 내부 8비트 각각이 모두 정보값을 갖는다.
 
-![Packet Type](image-4.png)
+![출처: ECSS-E-ST-50-52C, Figure 5-1](image-4.png)
 
 비트 7, 6은 패킷 타입을 정의한다.
 
 - Packet Type 01 = Command Packet
 - Packet Type 00 = Reply Packet
 
-![Command Detail](image-6.png)
+![출처: ECSS-E-ST-50-52C, Figure 5-1](image-6.png)
 
 비트 5~2는 명령에 대한 세부 설정을 담고 있다.
 
@@ -75,17 +83,17 @@ Instruction 필드는 내부 8비트 각각이 모두 정보값을 갖는다.
 
 ### RMAP Key
 
-![Key Field](image-3.png)
+![출처: ECSS-E-ST-50-52C, Figure 5-1](image-3.png)
 
 타겟 하드웨어에는 TLA 외에도 RMAP Key라는 검증용 필드가 존재한다. 하드웨어의 키와 패킷에 설정된 키값이 동일해야 하며, 다를 경우 패킷은 폐기된다.
 
 ### Reply Address
 
-![Reply Address Field](image-5.png)
+![출처: ECSS-E-ST-50-52C, Figure 5-1](image-5.png)
 
 RMAP 패킷 대부분은 응답을 받는다. 이때 자동으로 경로가 저장되지 않으므로 따로 응답 패킷이 돌아올 경로를 알려줘야 한다. Target Address와 마찬가지로 네트워크 규약에 따라 path addressing, logical addressing 각 방식에 맞게 필드를 채워 주면 된다.
 
-![Reply Address Length](image-7.png)
+![출처: ECSS-E-ST-50-52C, Figure 5-1](image-7.png)
 
 ⚠️ 꼭 알아두어야 할 점: Reply Address는 항상 4 byte 정렬된다. ⚠️
 
@@ -102,25 +110,25 @@ RMAP 패킷 대부분은 응답을 받는다. 이때 자동으로 경로가 저�
 
 ### Transaction ID
 
-![Transaction Identifier Field](image-8.png)
+![출처: ECSS-E-ST-50-52C, Figure 5-1](image-8.png)
 
 Initiator가 연속해서 여러 개의 패킷을 전송하는 경우, 여러 개의 응답이 들어왔을 때 해당 응답이 어떤 요청과 매칭되는지 구별할 수 있어야 한다. Transaction ID는 이러한 상황에서 패킷 구별이 가능하도록 패킷별로 부여되는 ID이다.
 
 ### Address
 
-![Address Field](image-9.png)
+![출처: ECSS-E-ST-50-52C, Figure 5-1](image-9.png)
 
 데이터를 쓸(읽을) 타겟 노드의 내부 주소이다. 이 중 Extended Address는 40 bit 주소를 지원하기 위한 추가 상위 8비트인데, 많은 경우 단순히 0으로 채워져 있다.
 
 ### Data Length
 
-![Data Length Field](image-10.png)
+![출처: ECSS-E-ST-50-52C, Figure 5-1](image-10.png)
 
 Data Length Field는 총 24비트로, RMAP 패킷은 이론적으로 최대 16MB(정확하게는 16MB-1) 데이터를 한 번에 전송할 수 있다.
 
 ### Header/Data CRC
 
-![Header/Data CRC Field](image-11.png)
+![출처: ECSS-E-ST-50-52C, Figure 5-1](image-11.png)
 
 RMAP CRC는 표준 256-entry 룩업 테이블 방식을 사용하며, 테이블은 ECSS-E-ST-50-52C 문서 Annex A.3에서 확인할 수 있다.
 
@@ -130,7 +138,7 @@ RMAP CRC는 표준 256-entry 룩업 테이블 방식을 사용하며, 테이블�
 
 ## 💬 Write Reply Header
 
-![Reply Address Field](image-12.png)
+![출처: ECSS-E-ST-50-52C, Figure 5-2](image-12.png)
 
 Reply Address도 동일하게 동작하며, 이는 Command Packet에 포함되어 있던 값들이다.
 
@@ -138,18 +146,18 @@ Reply Address도 동일하게 동작하며, 이는 Command Packet에 포함되�
 
 ### Instruction
 
-![Instruction Field](image-13.png)
+![출처: ECSS-E-ST-50-52C, Figure 5-2](image-13.png)
 
 Reply Packet의 Instruction 필드는 Command와 유사하지만, 몇몇 값이 변경되거나 고정되어 있다.
 
-![Bits in Instruction Field](image-14.png)
+![출처: ECSS-E-ST-50-52C, Figure 5-2](image-14.png)
 
 - Packet Type 00 = Reply
 - Reply(Acknowledge) Bit = 1
 
 ### Status
 
-![Status Field](image-15.png)
+![출처: ECSS-E-ST-50-52C, Figure 5-2](image-15.png)
 
 가장 중요한 필드라고 할 수 있다. Status 필드가 0이면 정상 동작이며, non-zero이면 에러이다. 에러 코드에 대한 내용은 아래에서 후술한다.
 
@@ -157,7 +165,7 @@ Reply Packet의 Instruction 필드는 Command와 유사하지만, 몇몇 값이 
 
 ## RMAP Status Codes
 
-![Error and Status Codes](image-16.png)
+![출처: ECSS-E-ST-50-52C, Table 5-4](image-16.png)
 
 Non-zero 에러코드는 위 표에서 볼 수 있듯이 11종류이다.
 
