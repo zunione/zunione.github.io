@@ -1,5 +1,5 @@
 ---
-title: "[SPW] SpaceWire 프로토콜 #2: RMAP (1) - Write/Status Code"
+title: "[SPW] SpaceWire 상위 프로토콜 RMAP (1): Write Command/Status Code"
 description: "Space & Embedded Protocols #2"
 date: 2026-07-09
 update: 2026-07-09

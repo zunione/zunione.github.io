@@ -1,8 +1,8 @@
 ---
-title: "[SPW] SpaceWire 프로토콜 #3: RMAP (2) - Read/RMW"
+title: "[SPW] SpaceWire 상위 프로토콜 RMAP (2): Read/RMW"
 description: "Space & Embedded Protocols #3"
-date: 2026-07-15
-update: 2026-07-15
+date: 2026-07-13
+update: 2026-07-13
 tags:
   - spacewire
   - rmap

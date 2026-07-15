@@ -1,5 +1,5 @@
 ---
-title: "[SPW] SpaceWire 프로토콜 #1: 기본 연결 수립과 패킷 처리"
+title: "[SPW] SpaceWire 프로토콜의 네트워크 구조"
 description: "Space & Embedded Protocols #1"
 date: 2026-07-07
 update: 2026-07-07
