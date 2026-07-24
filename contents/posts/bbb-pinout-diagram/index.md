@@ -1,8 +1,8 @@
 ---
 title: "[BBB] BeagleBone Black 핀아웃 다이어그램 및 시리얼 출력 보는 법"
 description: "BeagleBone Black Embedded #2"
-date: 2026-07-23
-update: 2026-07-23
+date: 2026-07-24
+update: 2026-07-24
 tags:
   - beagleboneblack
   - arm
