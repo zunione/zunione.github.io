@@ -1,11 +1,8 @@
 import React from "react"
 import styled from "styled-components"
 
-import { author } from "../../../../blog-config"
-
 import Divider from "components/Divider"
 import TagList from "components/TagList"
-import { Link } from "gatsby"
 
 const Wrapper = styled.div`
   margin-top: 32px;
@@ -27,32 +24,20 @@ const Information = styled.div`
   font-size: 16px;
 `
 
-const Author = styled.span`
-  & > a {
-    font-weight: 700;
-    color: ${props => props.theme.colors.text};
-    text-decoration: none;
-  }
-
-  & > a:hover {
-    text-decoration: underline;
-  }
-`
-
 const Date = styled.span`
   font-weight: 300;
   color: ${props => props.theme.colors.secondaryText};
 `
 
-const Header = ({ title, date, tags, minToRead }) => {
+const Header = ({ title, date, update, tags, minToRead }) => {
+  const isRevised = update && update !== date
+
   return (
     <Wrapper>
       <ArticleTitle> {title} </ArticleTitle>
       <Information>
-        <Author>
-          <Link to="/about">@{author}</Link>
-        </Author>
-        <Date> · {date} </Date>
+        <Date>Published {date} </Date>
+        {isRevised && <Date>· Revised {update} </Date>}
         <Date>· {minToRead} min read </Date>
       </Information>
       {tags && <TagList tagList={tags} />}

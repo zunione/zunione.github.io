@@ -163,7 +163,7 @@ Reply Packet의 Instruction 필드는 Command와 유사하지만, 몇몇 값이 
 
 추가로 패킷 형식을 맞추기 위한 reserved 필드가 있다.
 
-## RMAP Status Codes
+## 🎌 RMAP Status Codes
 
 ![출처: ECSS-E-ST-50-52C, Table 5-4](image-16.png)
 
