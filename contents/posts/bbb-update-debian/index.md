@@ -1,8 +1,8 @@
 ---
 title: "[BBB] BeagleBone Black eMMC 메모리에 저장된 리눅스 이미지 업데이트"
 description: "BeagleBone Black Embedded #3"
-date: 2026-07-30
-update: 2026-07-30
+date: 2026-08-18
+update: 2026-08-18
 tags:
   - beagleboneblack
   - arm
@@ -75,7 +75,7 @@ BeagleBoard Imaging Utility를 사용할 때에는 이미지를 따로 다운로
 
 ![Select target board](202742.png)
 
-비슷비슷해보이는 이미지가 굉장히 많은데, 이 중 Xface는 HDMI 연결로 실제 모니터와 마우스 등을 연결해 쓸 수 있는 GUI가 포함되어 있고, IoT는 그렇지 않다.
+비슷비슷해보이는 이미지가 굉장히 많은데, 이 중 XFCE는 HDMI 연결로 실제 모니터와 마우스 등을 연결해 쓸 수 있는 GUI가 포함되어 있고, IoT는 그렇지 않다.
 
 또한 버전 태그 끝에 x가 붙어 있으면 일반 데비안 이미지이고, ti가 붙어 있다면 Texas Instruments에서 AM335x SoC에 맞게 직접 패치한 커널 브랜치이다. 주변장치 드라이버들이 훨씬 완성도 있게 포함되어 있다.
 
