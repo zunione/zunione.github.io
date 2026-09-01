@@ -172,7 +172,88 @@ $(pwd)
 
 
 
+<aside>
+💡
 
+ Waf Build System을 활용하여 RTEMS 예제 코드를 빌드합니다.
+
+</aside>
+
+**사전 준비**
+
+---
+
+- [ ]  VM 로그인을 위한 아이디/비밀번호 설정
+
+**학습 목표**
+
+---
+
+- [ ]  RTEMS 이미지를 U-Boot에 올려 BBB 보드의 SD카드에 복사하기
+- [ ]  간단한 RTEMS 코드 구현하기
+
+**자료실**
+
+---
+
+https://blog.thelunatic.dev/getting-started-bbb-1/
+
+https://blog.thelunatic.dev/getting-started-bbb-2/
+
+## Boot RTEMS on BeagleBoneBlack
+
+### **1. Generating the RTEMS image**
+
+```bash
+cd /opt/rtems/rtems/build/arm/beagleboneblack/testsuites/samples
+cp hello.exe ~
+cd ~
+
+arm-rtems6-objcopy hello.exe -O binary app.bin
+gzip -9 app.bin
+mkimage -A arm -O linux -T kernel -a 0x80000000 -e 0x80000000 -n RTEMS -d app.bin.gz rtems-app.img
+```
+
+### **2. `uEnv.txt`**
+
+`uEnv.txt` 는 부팅 과정을 제어하기 위한 U-Boot 설정 파일이다. 
+
+SD 카드의 루트 디렉토리에 위치하며, 부트로더가 어떤 파일을 어느 메모리 주소로 로드할지 지정한다.
+
+```bash
+setenv bootdelay 5
+uenvcmd=run boot
+boot=fatload mmc 0 0x80800000 rtems-app.img ; fatload mmc 0 0x88000000 am335x-boneblack.dtb ; bootm 0x80800000 - 0x88000000
+```
+
+### **3. The Device Tree file**
+
+dtb 파일을 빌드한다. `dtc` 명령어가 설치되어 있어야 한다.
+
+```bash
+git clone https://github.com/freebsd/freebsd-src.git
+cd ~/freebsd-src/sys/contrib/device-tree/src/arm/ti/omap
+
+sudo apt install device-tree-compiler
+cpp -P -x assembler-with-cpp -D__DTS__ \
+  -I ../../../../include \
+  am335x-boneblack.dts \
+  | dtc -I dts -O dtb -o ~/am335x-boneblack.dtb
+```
+
+**cpp 옵션**
+
+- `-P` : 라인 마커 출력 안 함 (전처리된 순수 코드만)
+- `-x assembler-with-cpp` : 어셈블러 형식으로 처리 (DTS 파일이 C 매크로를 사용하므로)`
+- `-D__DTS__` : `__DTS__` 매크로 정의 (조건부 컴파일용)
+- `-I ../../../../include` : 헤더 파일 경로 지정 (여기서 `dt-bindings/` 등의 헤더를 찾음)
+→ `#include`와 매크로(`GPIO_ACTIVE_HIGH` 등)를 처리하기 위해서
+
+**dtc 옵션**
+
+- `-I dts` : 입력 형식은 Device Tree Source (텍스트)
+- `-O dtb` : 출력 형식은 Device Tree Blob (바이너리)
+- `-o ~/am335x-boneblack.dtb` : 출력 파일 경로
 
 
 
