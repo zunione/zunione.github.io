@@ -1,5 +1,5 @@
 ---
-title: "[BBB/RTEMS] RTEMS를 BBB BSP로 빌드하고 부팅하기"
+title: "[BBB/RTEMS] RTEMS를 비글본블랙 BSP로 빌드하고 부팅하기"
 description: "BeagleBone Black Embedded #4"
 date: 2026-09-30
 update: 2026-09-30
