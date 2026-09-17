@@ -1,0 +1,46 @@
+---
+title: "[BBB] BeagleBone Black 로컬 웹 IDE로 보드 제어"
+description: "BeagleBone Black Embedded #4"
+date: 2026-08-30
+update: 2026-08-30
+tags:
+  - beagleboneblack
+  - arm
+  - cortex-a8
+  - uart
+  - ftdi
+series: "BeagleBone Black 보드로 산업용 임베디드 입문"
+---
+
+## 🚀 들어가며
+
+비글본 블랙과 PC를 MicroUSB 포트를 통해 연결하면, 비글본블랙 보드가 호스팅하는 Web IDE로 연결된다. 여기서 코딩을 하고 컴파일하면 즉각적으로 보드에 반응이 나타나기 때문에 시리얼 출력에 익숙하지 않다면 이 방법으로 공부를 시작하면 도움이 될 것이다.
+
+다만 이 방식은 JavaScript 언어를 사용하기에 언어를 모른다면 차라리 시리얼로 연결해 C언어로 코딩하는 것이 나을 수도 있다.
+
+
+
+Debian 13 Trixie는 MicroUSB를 통해 웹 콘솔을 호스팅한다. 이 웹 콘솔을 통해 터미널도 볼 수 있고, 이더넷 케이블로 인터넷을 연결하면 설치된 apt 패키지들과 업데이트 현황도 볼 수 있다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## ✨ 마치며
