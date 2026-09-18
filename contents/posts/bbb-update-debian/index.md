@@ -5,9 +5,8 @@ date: 2026-08-18
 update: 2026-08-18
 tags:
   - beagleboneblack
-  - arm
-  - cortex-a8
   - emmc
+  - trixie
 series: "BeagleBone Black 보드로 산업용 임베디드 입문"
 ---
 

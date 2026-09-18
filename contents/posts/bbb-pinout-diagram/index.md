@@ -5,10 +5,10 @@ date: 2026-07-24
 update: 2026-07-24
 tags:
   - beagleboneblack
-  - arm
-  - cortex-a8
+  - pinout
   - uart
   - ftdi
+  - serial
 series: "BeagleBone Black 보드로 산업용 임베디드 입문"
 ---
 

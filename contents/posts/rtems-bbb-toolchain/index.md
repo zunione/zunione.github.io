@@ -1,13 +1,13 @@
 ---
-title: "[BBB/RTEMS] RTEMS를 비글본블랙 BSP로 빌드하고 부팅하기"
-description: "BeagleBone Black Embedded #4"
+title: "[RTEMS/BBB] RTEMS를 비글본블랙 BSP로 빌드하고 부팅하기"
+description: "RTEMS Open Source #1"
 date: 2026-09-30
 update: 2026-09-30
 tags:
   - rtos
   - rtems
   - beagleboneblack
-series: "BeagleBone Black 보드로 산업용 임베디드 입문"
+series: "위성/우주 프로젝트에서 널리 쓰이는 RTEMS"
 ---
 
 ## 🚀 들어가며

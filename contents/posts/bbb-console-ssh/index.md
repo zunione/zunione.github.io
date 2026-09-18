@@ -5,6 +5,7 @@ date: 2026-09-17
 update: 2026-09-17
 tags:
   - beagleboneblack
+  - trixie
   - localhost
   - ssh
 series: "BeagleBone Black 보드로 산업용 임베디드 입문"
